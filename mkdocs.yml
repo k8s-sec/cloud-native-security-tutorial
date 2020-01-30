@@ -1,0 +1,35 @@
+site_name: 'Cloud Native Security Tutorial'
+site_description: 'Getting started with cloud native security'
+site_author: 'Liz Rice and Michael Hausenblas'
+repo_name: 'k8s-sec/cloud-native-security-tutorial'
+repo_url: 'https://github.com/k8s-sec/cloud-native-security-tutorial'
+copyright: 'Copyright &copy; Liz Rice and Michael Hausenblas'
+nav:
+    - Overview: index.md
+    - Foundations: fundamental.md
+    - Scanning: scanning.md
+    - Policies: policies.md
+    - GitOps: gitops.md
+theme:
+    name: 'material'
+    logo:
+        icon: 'lock'
+    font:
+      text: 'Lato'
+      code: 'PT Mono'
+    palette:
+      primary: 'blue'
+      accent: 'orange'
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - json
+        - bash
+markdown_extensions:
+    - toc:
+        permalink: true
+    - admonition
+    - codehilite:
+        linenums: true
+    - pymdownx.details
+    - pymdownx.superfences
