@@ -6,7 +6,8 @@ repo_url: 'https://github.com/k8s-sec/cloud-native-security-tutorial'
 copyright: 'Copyright &copy; Liz Rice and Michael Hausenblas'
 nav:
     - Overview: index.md
-    - Foundations: fundamental.md
+    - Introduction: introduction.md
+    - Secure settings: settings.md
     - Scanning: scanning.md
     - Policies: policies.md
     - GitOps: gitops.md

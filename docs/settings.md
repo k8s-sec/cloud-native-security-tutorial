@@ -4,7 +4,7 @@ When you install Kubernetes, there are numerous configuration settings that can 
 
 ## The CIS Benchmark
 
-TODO - add background link about CIS, the benchmarks and how it has tests for different components
+> TODO - add background link about CIS, the benchmarks and how it has tests for different components
 
 ### Running benchmark checks with kube-bench
 
@@ -12,55 +12,7 @@ The open source tool [kube-bench](https://github.com/aquasecurity/kube-bench) ma
 
 You could run kube-bench in a cluster of your choice but for this tutorial we are showing it running in a kind (Kubernetes in Docker) single-node cluster that runs on your laptop as a Docker container.
 
-## Prepare the kind cluster
 
-### Install kind
-
-TODO - is kind already installed at this point? Maybe move this to intro
-
-You can skip this step if you already have an up-to-date installation of `kind`.
-
-On MacOS using Homebrew:
-
-```
-brew install kind
-```
-
-On MacOS / Linux:
-
-```
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64
-chmod +x ./kind
-mv ./kind /some-dir-in-your-PATH/kind
-```
-
-On Windows using Chocolatey:
-
-```
-choco install kind
-```
-
-For more details see the [kind quickstart guide](https://kind.sigs.k8s.io/docs/user/quick-start/
-).
-
-### Create the kind cluster
-
-```
-kind create cluster
-```
-
-Once it's up and running, check that you can see the node is up and running:
-
-```
-kubectl get nodes
-```
-
-This should show something like this:
-
-```
-NAME                 STATUS   ROLES    AGE   VERSION
-kind-control-plane   Ready    master   78m   v1.18.2
-```
 
 ## Run kube-bench on the kind cluster
 
@@ -90,10 +42,10 @@ kubectl logs $(kubectl get pods -l app=kube-bench -o name)
 
 Scroll back through the logs to see how it is divided into sections, each with its own set of results, remediation recommendations, and a summary.
 
-Most of the tests pass but there are a few results marked with [WARN] or [FAIL]
+Most of the tests pass but there are a few results marked with `[WARN]` or `[FAIL]`
 
-* [FAIL] means that the test failed
-* [WARN] indicates that you need to do something manually to verify whether the test should pass or not.
+* `[FAIL]` means that the test failed
+* `[WARN]` indicates that you need to do something manually to verify whether the test should pass or not.
 
 For more detail on the output check the [kube-bench documentation](https://github.com/aquasecurity/kube-bench#output).
 
@@ -105,8 +57,11 @@ Scroll back through the results to find the result and (further down the results
 
 ```
 ...
+
 [FAIL] 4.2.6 Ensure that the --protect-kernel-defaults argument is set to true (Scored)
+
 ...
+
 4.2.6 If using a Kubelet config file, edit the file to set protectKernelDefaults: true.
 If using command line arguments, edit the kubelet service file
 /etc/systemd/system/kubelet.service.d/10-kubeadm.conf on each worker node and
@@ -178,11 +133,11 @@ kubectl logs $(kubectl get pods -l app=kube-bench -o name)
 
 This time you should see that test 4.2.6 passes. Congratulations, you have remediated a security setting on a Kubernetes node!
 
-!!! This only remediates the running node, of course! If you are managing your own Kubernetes nodes, it would be better to make sure they are configured with the settings you want as they are deployed.
+!!! This only remediates the running node, of course! If you are managing your own Kubernetes nodes, it would be better to update the configuration settings you use in deployment scripts, so that the nodes are configured to run from the outset with the settings you want.
 
 ## Optional exercises
 
-If you download the job.yaml file you can modify it to try some optional exercises.
+If you download the [`job.yaml`](https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job.yaml) file used above, you can modify it to try some optional exercises.
 
 ### Run a specific test
 
@@ -190,9 +145,7 @@ Sometimes you might want to run an individual test rather than the whole benchma
 
 ### Specify worker node tests only
 
-There are different CIS Kubernetes Benchmark tests for different node types in the cluster (master nodes, worker nodes, etcd nodes). On a managed Kubernetes system you might only have access to worker nodes. You can run just the tests which apply on these nodes with the job specified at https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job-node.yaml.
-
-You should ideally run CIS benchmark tests to check the configuration of every node in the cluster. `kube-bench` tries to auto-detect which tests to run on any given node, but it only runs on one node at a time.
+There are different CIS Kubernetes Benchmark tests for different node types in the cluster (master nodes, worker nodes, etcd nodes). On a managed Kubernetes system you might only have access to worker nodes, so you only need to run the tests that apply to those nodes. `kube-bench` tries to auto-detect which tests to run on any given node, but to keep things simple you may wish to specify worker node tests only. You might like to try out the [`job-node.yaml`](https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job-node.yaml) configuration which does just that.
 
 
 
