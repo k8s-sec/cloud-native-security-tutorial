@@ -13,8 +13,8 @@ nav:
     - GitOps: gitops.md
 theme:
     name: 'material'
-    logo:
-        icon: 'lock'
+    icon:
+        logo: 'material/lock'
     font:
       text: 'Lato'
       code: 'PT Mono'
