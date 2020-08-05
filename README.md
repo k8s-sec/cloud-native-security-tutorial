@@ -2,7 +2,10 @@
 
 > By Liz Rice (Aqua Security) and Michael Hausenblas (Amazon Web Services)
 
-2020-03-31, Tuesday 11:05 - 12:35 (90 min)
+Monday 17th August 2020, 90 min tutorial session as part of KubeCon EU 2020
+- 15:05 - 16:35 CEST 
+- 14:05 - 15:35 UK 
+- 9:05 - 10:35 US East Coast
 
 [Sign up!](https://sched.co/Zekj)
 
