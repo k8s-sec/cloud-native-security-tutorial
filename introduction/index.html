@@ -100,7 +100,7 @@
       <div class="md-flex__cell md-flex__cell--shrink">
         <a href=".." title="Cloud Native Security Tutorial" class="md-header-nav__button md-logo">
           
-            <i class="md-icon">lock</i>
+            <i class="md-icon"></i>
           
         </a>
       </div>
@@ -192,7 +192,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href=".." title="Cloud Native Security Tutorial" class="md-nav__button md-logo">
       
-        <i class="md-icon">lock</i>
+        <i class="md-icon"></i>
       
     </a>
     Cloud Native Security Tutorial
@@ -291,6 +291,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#install-helm" title="Install Helm" class="md-nav__link">
+    Install Helm
+  </a>
+  
+</li>
+      
       
       
       
@@ -308,8 +315,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../settings/" title="Secure settings" class="md-nav__link">
-      Secure settings
+    <a href="../compromise/" title="Compromise a pod!" class="md-nav__link">
+      Compromise a pod!
     </a>
   </li>
 
@@ -334,6 +341,18 @@
   <li class="md-nav__item">
     <a href="../policies/" title="Policies" class="md-nav__link">
       Policies
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../settings/" title="Secure settings" class="md-nav__link">
+      Secure settings
     </a>
   </li>
 
@@ -397,6 +416,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#install-helm" title="Install Helm" class="md-nav__link">
+    Install Helm
+  </a>
+  
+</li>
+      
       
       
       
@@ -417,13 +443,19 @@
                 
                 
                 <h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>TODO!</p>
+<p>TODO! document the attack vectors</p>
 <blockquote>
 <p>We’ll start with possible attack vectors, to help you map out the threat model that applies to your cluster, so you can figure out where you need to focus your efforts for security.</p>
-<p>We’ll show you how to compromise a deployment with a pod running with a known vulnerability. Once you’ve had the attacker’s eye-view, we’ll walk you through the most important techniques and open source tools to prevent compromise.</p>
 </blockquote>
+<p>We’ll show you how to compromise a deployment with a pod running with a known vulnerability. Once you’ve had the attacker’s eye-view, we’ll walk you through the most important techniques and open source tools to prevent compromise.</p>
+<ul>
+<li><a href="../scanning/">Scanning container images for vulnerabilities</a></li>
+<li><a href="../policies/">Configuring container images with security in mind, and checking them with policies</a></li>
+<li><a href="../settings/">Checking your Kubernetes configuration</a></li>
+<li><a href="../gitops/">Enhancing security using GitOps</a></li>
+</ul>
 <h2 id="create-a-kubernetes-cluster">Create a Kubernetes cluster<a class="headerlink" href="#create-a-kubernetes-cluster" title="Permanent link">&para;</a></h2>
-<p>To follow along with the practical examples in this tutorial you'll need a Kubernetes cluster that you can experiment with. Since at times you will be deploying insecure code, please don't use your production cluster! You can run a cluster locally on your laptop, for example using <a href="https://kind.sigs.k8s.io">Kind - Kubernetes IN Docker</a>.</p>
+<p>To follow along with the practical examples in this tutorial you'll need a Kubernetes cluster that you can experiment with. Since at times you will be deploying insecure code, please don't use your production cluster! You can run a cluster locally on your laptop, for example using <a href="https://kind.sigs.k8s.io">Kind - Kubernetes IN Docker</a>. We'll also be using Helm to run software on the Kind cluster.</p>
 <h3 id="install-kind">Install kind<a class="headerlink" href="#install-kind" title="Permanent link">&para;</a></h3>
 <p>You can skip this step if you already have an up-to-date installation of <code>kind</code>.</p>
 <p>On MacOS using Homebrew:</p>
@@ -455,6 +487,26 @@ kind-control-plane   Ready    master   78m   v1.18.2
 </code></pre></div>
 
 <p>Great! You have a Kubernetes cluster running locally that you can experiment with.</p>
+<h2 id="install-helm">Install Helm<a class="headerlink" href="#install-helm" title="Permanent link">&para;</a></h2>
+<p>If you don't already have Helm on your laptop, you'll want to install that too. Find full instructions in the <a href="https://helm.sh/docs/intro/install/">Helm documentation</a> or here is a quick guide:</p>
+<p>On MacOS using Homebrew:</p>
+<div class="highlight"><pre><span></span><code>brew install helm
+</code></pre></div>
+
+<p>On MacOS / Linux:</p>
+<div class="highlight"><pre><span></span><code>curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod +x get_helm.sh
+./get_helm.sh
+</code></pre></div>
+
+<p>On Windows using Chocolatey:</p>
+<div class="highlight"><pre><span></span><code>choco install kubernetes-helm
+</code></pre></div>
+
+<p>If you have a fresh Kind installation there won't be any Helm charts installed yet, so a <code>helm ls</code> will return an empty list:</p>
+<div class="highlight"><pre><span></span><code>$ helm ls
+NAME    NAMESPACE   REVISION    UPDATED STATUS  CHART   APP VERSION
+</code></pre></div>
                 
                   
                 
@@ -490,13 +542,13 @@ kind-control-plane   Ready    master   78m   v1.18.2
           </a>
         
         
-          <a href="../settings/" title="Secure settings" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../compromise/" title="Compromise a pod!" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Secure settings
+                Compromise a pod!
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
