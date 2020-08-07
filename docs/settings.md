@@ -2,9 +2,11 @@
 
 When you install Kubernetes, there are numerous configuration settings that can affect security. In this section you'll learn about checking the settings in your cluster against the best practices advised by the Center for Internet Security.
 
-## The CIS Benchmark
+## The CIS Kubernetes Benchmark
 
-> TODO - add background link about CIS, the benchmarks and how it has tests for different components
+The CIS have many different benchmarks recommending how to configure software components with security best practices in mind. One such benchmark is for Kubernetes - in fact there are several editions for managed version of Kubernetes, like EKS or GKE, as well as for upstream Kubernetes installations.
+
+There are hundreds of recommendations in these benchmarks, so running them manually on every node would be a time-consuming process.
 
 ### Running benchmark checks with kube-bench
 
@@ -135,6 +137,22 @@ This time you should see that test 4.2.6 passes. Congratulations, you have remed
 
 !!! This only remediates the running node, of course! If you are managing your own Kubernetes nodes, it would be better to update the configuration settings you use in deployment scripts, so that the nodes are configured to run from the outset with the settings you want.
 
+## Running kube-bench through Starboard
+
+You can also use Starboard to run kube-bench and store the results in a Kubernetes CRD.
+
+```sh
+$ kubectl starboard kube-bench
+$ kubectl get ciskubebenchreports -o yaml
+```
+
+These results can be easily viewed using Octant and the Octant Starboard plugin.
+
+Using Starboard has the advantage that it will automatically run a `kube-bench` job on all the nodes in the cluster.
+
+![Octant deployment page showing CIS Kubernetes Benchmark results](img/octant-kube-bench.png)
+
+
 ## Optional exercises
 
 If you download the [`job.yaml`](https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job.yaml) file used above, you can modify it to try some optional exercises.
@@ -146,8 +164,5 @@ Sometimes you might want to run an individual test rather than the whole benchma
 ### Specify worker node tests only
 
 There are different CIS Kubernetes Benchmark tests for different node types in the cluster (master nodes, worker nodes, etcd nodes). On a managed Kubernetes system you might only have access to worker nodes, so you only need to run the tests that apply to those nodes. `kube-bench` tries to auto-detect which tests to run on any given node, but to keep things simple you may wish to specify worker node tests only. You might like to try out the [`job-node.yaml`](https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job-node.yaml) configuration which does just that.
-
-
-
 
 
