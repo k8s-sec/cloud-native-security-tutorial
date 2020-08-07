@@ -7,11 +7,13 @@ copyright: 'Copyright &copy; Liz Rice and Michael Hausenblas'
 nav:
     - Overview: index.md
     - Introduction: introduction.md
+    - Preparation: preparation.md
     - Compromise a pod!: compromise.md
     - Scanning: scanning.md
     - Policies: policies.md
     - Secure settings: settings.md
     - GitOps: gitops.md
+    - Conclusion: conclusions.md
 theme:
     name: 'material'
     icon:
