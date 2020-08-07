@@ -1,95 +1,17 @@
 # Introduction
 
-TODO! document the attack vectors
+If you want to follow along with the hands-on examples in this tutorial, you'll need a Kubernetes cluster and Helm to get started. You'll find instructions in the [Preparation](preparation.md) page.
 
-> We’ll start with possible attack vectors, to help you map out the threat model that applies to your cluster, so you can figure out where you need to focus your efforts for security.
+Before we get to the examples, let's review some of the different ways that an attacker might compromise a Kubernetes cluster.
 
-We’ll show you how to compromise a deployment with a pod running with a known vulnerability. Once you’ve had the attacker’s eye-view, we’ll walk you through the most important techniques and open source tools to prevent compromise.
+## Kubernetes attack vectors
 
-- [Scanning container images for vulnerabilities](scanning.md)
-- [Configuring container images with security in mind, and checking them with policies](policies.md)
-- [Checking your Kubernetes configuration](settings.md)
-- [Enhancing security using GitOps](gitops.md)
+![Kubernetes Attack Vectors](img/kuse_0101.png)
 
-## Create a Kubernetes cluster
+We won't have time to explore all of these in detail but we will be covering some of the most important topics.
 
-To follow along with the practical examples in this tutorial you'll need a Kubernetes cluster that you can experiment with. Since at times you will be deploying insecure code, please don't use your production cluster! You can run a cluster locally on your laptop, for example using [Kind - Kubernetes IN Docker](https://kind.sigs.k8s.io). We'll also be using Helm to run software on the Kind cluster.
+- An attacker might take advantage of vulnerabilities in your application code. You can go a long way to address this by [scanning container images for vulnerabilities](scanning.md)
+- If an attacker gets a foothold within a container, you want to prevent them from escaping the container to access the host or other components, by [configuring container images with security in mind, and checking them with policies](policies.md)
+- The Kubernetes components and APIs offer more potential surfaces for attack, so you want to [checking your Kubernetes configuration](settings.md) for settings that might leave your deployment vulnerable.
+- At the root of many security issues lies human error, as well as bad actors. You can limit human access to the cluster, and thus [enhancing security using GitOps](gitops.md)
 
-### Install kind
-
-You can skip this step if you already have an up-to-date installation of `kind`.
-
-On MacOS using Homebrew:
-
-```
-brew install kind
-```
-
-On MacOS / Linux:
-
-```
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64
-chmod +x ./kind
-mv ./kind /some-dir-in-your-PATH/kind
-```
-
-On Windows using Chocolatey:
-
-```
-choco install kind
-```
-
-For more details see the [kind quickstart guide](https://kind.sigs.k8s.io/docs/user/quick-start/
-).
-
-### Create the kind cluster
-
-```
-kind create cluster
-```
-
-Once it's up and running, check that you can see the node is up and running:
-
-```
-kubectl get nodes
-```
-
-This should show something like this:
-
-```
-NAME                 STATUS   ROLES    AGE   VERSION
-kind-control-plane   Ready    master   78m   v1.18.2
-```
-
-Great! You have a Kubernetes cluster running locally that you can experiment with.
-
-## Install Helm
-
-If you don't already have Helm on your laptop, you'll want to install that too. Find full instructions in the [Helm documentation](https://helm.sh/docs/intro/install/) or here is a quick guide:
-
-On MacOS using Homebrew:
-
-```
-brew install helm
-```
-
-On MacOS / Linux:
-
-```
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod +x get_helm.sh
-./get_helm.sh
-```
-
-On Windows using Chocolatey:
-
-```
-choco install kubernetes-helm
-```
-
-If you have a fresh Kind installation there won't be any Helm charts installed yet, so a `helm ls` will return an empty list:
-
-```
-$ helm ls
-NAME	NAMESPACE	REVISION	UPDATED	STATUS	CHART	APP VERSION
-```
