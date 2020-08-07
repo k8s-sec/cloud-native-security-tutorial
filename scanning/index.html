@@ -250,6 +250,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../preparation/" title="Preparation" class="md-nav__link">
+      Preparation
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
     <a href="../compromise/" title="Compromise a pod!" class="md-nav__link">
       Compromise a pod!
     </a>
@@ -289,9 +301,70 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#including-vulnerability-scanning-in-your-workflow" title="Including vulnerability scanning in your workflow" class="md-nav__link">
-    Including vulnerability scanning in your workflow
+  <a href="#running-trivy-on-the-desktop" title="Running Trivy on the desktop" class="md-nav__link">
+    Running Trivy on the desktop
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-trivy" title="Install Trivy" class="md-nav__link">
+    Install Trivy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-trivy-to-scan-images" title="Run Trivy to scan images" class="md-nav__link">
+    Run Trivy to scan images
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#including-vulnerability-scanning-in-cicd" title="Including vulnerability scanning in CI/CD" class="md-nav__link">
+    Including vulnerability scanning in CI/CD
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scanning-as-part-of-admission-control" title="Scanning as part of admission control" class="md-nav__link">
+    Scanning as part of admission control
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scanning-running-kubernetes-workloads" title="Scanning running Kubernetes workloads" class="md-nav__link">
+    Scanning running Kubernetes workloads
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-starboard" title="Install Starboard" class="md-nav__link">
+    Install Starboard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-vulnerabilities" title="Find vulnerabilities" class="md-nav__link">
+    Find vulnerabilities
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -342,6 +415,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../conclusions/" title="Conclusion" class="md-nav__link">
+      Conclusion
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -363,9 +448,70 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#including-vulnerability-scanning-in-your-workflow" title="Including vulnerability scanning in your workflow" class="md-nav__link">
-    Including vulnerability scanning in your workflow
+  <a href="#running-trivy-on-the-desktop" title="Running Trivy on the desktop" class="md-nav__link">
+    Running Trivy on the desktop
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-trivy" title="Install Trivy" class="md-nav__link">
+    Install Trivy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-trivy-to-scan-images" title="Run Trivy to scan images" class="md-nav__link">
+    Run Trivy to scan images
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#including-vulnerability-scanning-in-cicd" title="Including vulnerability scanning in CI/CD" class="md-nav__link">
+    Including vulnerability scanning in CI/CD
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scanning-as-part-of-admission-control" title="Scanning as part of admission control" class="md-nav__link">
+    Scanning as part of admission control
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scanning-running-kubernetes-workloads" title="Scanning running Kubernetes workloads" class="md-nav__link">
+    Scanning running Kubernetes workloads
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-starboard" title="Install Starboard" class="md-nav__link">
+    Install Starboard
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-vulnerabilities" title="Find vulnerabilities" class="md-nav__link">
+    Find vulnerabilities
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -389,9 +535,144 @@
                 
                 
                 <h1 id="vulnerability-scanning">Vulnerability scanning<a class="headerlink" href="#vulnerability-scanning" title="Permanent link">&para;</a></h1>
-<p>The Shellshock vulnerability <a href="../compromise/">demonstrated</a> is a serious vulnerability, but it's just one of thousands of known, exploitable vulnerabilities that range from negligible right up to critical in severity.</p>
-<p>To make sure that your container images don't include</p>
-<h2 id="including-vulnerability-scanning-in-your-workflow">Including vulnerability scanning in your workflow<a class="headerlink" href="#including-vulnerability-scanning-in-your-workflow" title="Permanent link">&para;</a></h2>
+<p>The Shellshock vulnerability <a href="../compromise/">demonstrated</a> is a serious vulnerability, but it's just one of thousands of known, exploitable vulnerabilities that range from negligible right up to critical in severity. Most organizations have a policy of not deploying software with known vulnerabilities over a certain severity threshold.</p>
+<p>A vulnerability scanner can show you which vulnerabilities are present in your container images. This data can inform policies to prevent deploying vulnerable containers that an attacker could exploit.</p>
+<p>There are several solutions for vulnerability scanning available, and in this workshop we will use the open source scanner <a href="https://github.com/aquasecurity/trivy">Trivy</a>.</p>
+<h2 id="running-trivy-on-the-desktop">Running Trivy on the desktop<a class="headerlink" href="#running-trivy-on-the-desktop" title="Permanent link">&para;</a></h2>
+<p>Let's start by installing Trivy so we can run it locally.</p>
+<h3 id="install-trivy">Install Trivy<a class="headerlink" href="#install-trivy" title="Permanent link">&para;</a></h3>
+<p>On MacOS using Homebrew:</p>
+<div class="highlight"><pre><span></span><code>brew install aquasecurity/trivy/trivy
+</code></pre></div>
+
+<p>On MacOS / Linux:</p>
+<div class="highlight"><pre><span></span><code>curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
+</code></pre></div>
+
+<p>Trivy does not have a native binary for Windows, but you can <a href="https://github.com/aquasecurity/trivy#docker">run Trivy as a container</a>.</p>
+<p>For more details see the <a href="https://github.com/aquasecurity/trivy#installation">installation instructions</a>.</p>
+<h3 id="run-trivy-to-scan-images">Run Trivy to scan images<a class="headerlink" href="#run-trivy-to-scan-images" title="Permanent link">&para;</a></h3>
+<p>To scan an image simply run <code>trivy image &lt;image&gt;</code>. For example, to find the vulnerabilities in the image used in the Shellshock-compromised pod, run this:</p>
+<p><code>trivy image lizrice/shellshockable:0.1.0</code></p>
+<p>The Shellshock vulnerability is classed as HIGH severity, and it has the identifier <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6271">CVE-2014-6271</a>.</p>
+<p>If you are seeing a lot of results you might want to filter out the lower severity results. For example:</p>
+<p><code>trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.1.0</code></p>
+<p>For comparison, try this version of the image that does not have the Shellshock vulnerability:</p>
+<p><code>trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.3.0</code></p>
+<p>Now try Trivy on your favourite images!</p>
+<h2 id="including-vulnerability-scanning-in-cicd">Including vulnerability scanning in CI/CD<a class="headerlink" href="#including-vulnerability-scanning-in-cicd" title="Permanent link">&para;</a></h2>
+<p>One way to "shift left" security is to include vulnerability scanning as an automatic step in CI/CD. Your build steps might be something like this:</p>
+<ul>
+<li>Compile code</li>
+<li>Run tests</li>
+<li>Build Dockerfile into container image</li>
+<li>Scan image for vulnerabilities</li>
+<li>Push image to container registry</li>
+</ul>
+<p>If any step fails, the pipeline is stopped - so if a vulnerability is found, the scanning stage fails, and the image doesn't get pushed to the registry.</p>
+<p>Trivy has some settings that make it a great fit in CI/CD systems:</p>
+<ul>
+<li><code>--light</code> downloads a smaller vulnerability database that omits some details such as the text description of each vulnerability</li>
+<li><code>--severity=CRITICAL,HIGH,MEDIUM</code> only checks for vulnerabilities of MEDIUM or higher severity</li>
+<li><code>--exit-code=1</code> returns 1 if any vulnerabilties are found (above the threshold defined by <code>--severity</code>). This non-zero exit code is interpreted as a failure by the CI/CD system.</li>
+</ul>
+<p>Take a look at <a href="https://github.com/aquasecurity/trivy#continuous-integration-ci">these examples for integrating vulnerability scanning into various CI/CD systems</a>.</p>
+<blockquote>
+<p>TODO! In the GitOps section, if attendees will set up a Git repo, maybe we could get them to try the Trivy action there?</p>
+</blockquote>
+<h2 id="scanning-as-part-of-admission-control">Scanning as part of admission control<a class="headerlink" href="#scanning-as-part-of-admission-control" title="Permanent link">&para;</a></h2>
+<p>To prevent deploying a container image with known vulnerabilities, you can use an admission controller that either</p>
+<ul>
+<li>scans the image, or</li>
+<li>retrieves the result from a previous scan</li>
+</ul>
+<p>and denies admission if the image is vulnerable.</p>
+<p>Teppei Fukuda has a <a href="https://sched.co/Zekd">session at KubeCon this week</a> showing the use of OPA to make policy checks at the admission control stage.</p>
+<h2 id="scanning-running-kubernetes-workloads">Scanning running Kubernetes workloads<a class="headerlink" href="#scanning-running-kubernetes-workloads" title="Permanent link">&para;</a></h2>
+<p>Scanning in the CI/CD pipeline can prevent you from storing a vulnerable image in the registry, and admission control can prevent you from deploying an image with known vulnerabilities. But you may also want the ability to check the container images used by your live workloads.</p>
+<blockquote>
+<p>New vulnerabilities are found all the time. An image that you scan today might not have any vulnerablities, but a researcher may find a new issue that means the same image will fail the scan tomorrow.</p>
+</blockquote>
+<p><a href="https://github.com/aquasecurity/starboard">Starboard</a> is a tool for running security tools, including Trivy, within your Kubernetes cluster. This is an easy way to create and view scans of the container images used by your running workloads. Want to give it a try?</p>
+<h3 id="install-starboard">Install Starboard<a class="headerlink" href="#install-starboard" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>If you don't already have the <code>krew</code> plugin manager installed, follow the instructions <a href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/">here</a></p>
+</li>
+<li>
+<p>Install Starboard as a kubectl plugin:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>kubectl krew install starboard
+</code></pre></div>
+
+<ol>
+<li>Check that it's working</li>
+</ol>
+<div class="highlight"><pre><span></span><code>kubectl starboard <span class="nb">help</span>
+</code></pre></div>
+
+<p>On Mac you may get warnings about not being able to verify the developer - see <a href="https://github.com/aquasecurity/starboard#starboard-cannot-be-opened-because-the-developer-cannot-be-verified-macos">this guide to resolve them</a>.</p>
+<ol>
+<li>Initialize Starboard</li>
+</ol>
+<div class="highlight"><pre><span></span><code>kubectl starboard init
+</code></pre></div>
+
+<ol>
+<li>Check that this has created some CRDs</li>
+</ol>
+<div class="highlight"><pre><span></span><code>kubectl get crds
+</code></pre></div>
+
+<h3 id="find-vulnerabilities">Find vulnerabilities<a class="headerlink" href="#find-vulnerabilities" title="Permanent link">&para;</a></h3>
+<p>Starboard uses Trivy to populate some <code>vulnerabilities</code> CRs that relate to running workloads. Let's find the vulnerabilities in the deployment we created for the Shellshock demo.</p>
+<div class="highlight"><pre><span></span><code>kubectl starboard find vulns --delete-scan-job<span class="o">=</span><span class="nb">false</span> deployment/shellshockable
+</code></pre></div>
+
+<p>This will take a few seconds. The <code>--delete-scan-job=false</code> parameter allows us to inspect the job that Starboard creates to run Trivy. But first let's look at the results:</p>
+<div class="highlight"><pre><span></span><code>kubectl starboard get vulns deployment/shellshockable
+</code></pre></div>
+
+<p>This outputs all the vulnerability information (including the details about Shellshock, with ID CVE-2014-6271).</p>
+<p>These details have been stored in a <code>vulns</code> resource that you can view with a regular <code>kubectl get</code> command:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl  get vulns --show-labels
+NAME                                   AGE     LABELS
+c9b156db-ab92-4b32-a006-efc54312a8c1   4m14s   starboard.container.name<span class="o">=</span>shellshockable,starboard.resource.kind<span class="o">=</span>Deployment,starboard.resource.name<span class="o">=</span>shellshockable,starboard.resource.namespace<span class="o">=</span>default
+</code></pre></div>
+
+<p>The labels indicate which resource this vulnerability report applies to.</p>
+<blockquote>
+<p>TODO! On master, but not yet released as a binary, we have <a href="https://github.com/aquasecurity/starboard/pull/97">additional info</a> with <code>-o wide</code></p>
+</blockquote>
+<p>As mentioned above, Starboard creates a Kubernetes job that runs Trivy over the container images defined for the workload. In this case, it establishes that the <code>shellshockable</code> deployment uses the container image <code>lizrice/shellshockable:0.1.0</code> and runs Trivy over that image. If you specified <code>--delete-scan-job=false</code> you can inspect the completed job to see the Trivy command that it ran:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get <span class="nb">jobs</span> -n starboard -o wide
+NAME                                   COMPLETIONS   DURATION   AGE     CONTAINERS       IMAGES                          SELECTOR
+637021cc-05d3-497a-a399-7b2ef0b1ebfd   <span class="m">1</span>/1           38s        4m46s   shellshockable   docker.io/aquasec/trivy:0.9.1   controller-uid<span class="o">=</span>0f5e6fac-13a9-438e-9fb4-65ac26fda82f
+
+$ kubectl describe job -n starboard 637021cc-05d3-497a-a399-7b2ef0b1ebfd
+...
+  Containers:
+   shellshockable:
+    Image:      docker.io/aquasec/trivy:0.9.1
+    Port:       &lt;none&gt;
+    Host Port:  &lt;none&gt;
+    Command:
+      trivy
+    Args:
+      --skip-update
+      --cache-dir
+      /var/lib/trivy
+      --no-progress
+      --format
+      json
+      lizrice/shellshockable:0.1.0
+...
+</code></pre></div>
+
+<p>Starboard makes it easy to run Trivy over your running workloads. There is also an Octant plugin so you can view the vulnerability results through the Octant UI.</p>
+<p><img alt="Octant deployment page showing vulnerability counts" src="../img/octant-shellshock-vulns.png" /></p>
+<p>You can check out the instructions for this <a href="https://github.com/aquasecurity/starboard-octant-plugin#starboard-octant-plugin">here</a> if you want to try it out.</p>
                 
                   
                 

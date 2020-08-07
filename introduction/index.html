@@ -265,35 +265,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-kubernetes-cluster" title="Create a Kubernetes cluster" class="md-nav__link">
-    Create a Kubernetes cluster
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install-kind" title="Install kind" class="md-nav__link">
-    Install kind
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-the-kind-cluster" title="Create the kind cluster" class="md-nav__link">
-    Create the kind cluster
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-helm" title="Install Helm" class="md-nav__link">
-    Install Helm
+  <a href="#kubernetes-attack-vectors" title="Kubernetes attack vectors" class="md-nav__link">
+    Kubernetes attack vectors
   </a>
   
 </li>
@@ -306,6 +279,18 @@
   
 </nav>
     
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../preparation/" title="Preparation" class="md-nav__link">
+      Preparation
+    </a>
   </li>
 
     
@@ -369,6 +354,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../conclusions/" title="Conclusion" class="md-nav__link">
+      Conclusion
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -390,35 +387,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-kubernetes-cluster" title="Create a Kubernetes cluster" class="md-nav__link">
-    Create a Kubernetes cluster
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install-kind" title="Install kind" class="md-nav__link">
-    Install kind
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-the-kind-cluster" title="Create the kind cluster" class="md-nav__link">
-    Create the kind cluster
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-helm" title="Install Helm" class="md-nav__link">
-    Install Helm
+  <a href="#kubernetes-attack-vectors" title="Kubernetes attack vectors" class="md-nav__link">
+    Kubernetes attack vectors
   </a>
   
 </li>
@@ -443,70 +413,17 @@
                 
                 
                 <h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>TODO! document the attack vectors</p>
-<blockquote>
-<p>We’ll start with possible attack vectors, to help you map out the threat model that applies to your cluster, so you can figure out where you need to focus your efforts for security.</p>
-</blockquote>
-<p>We’ll show you how to compromise a deployment with a pod running with a known vulnerability. Once you’ve had the attacker’s eye-view, we’ll walk you through the most important techniques and open source tools to prevent compromise.</p>
+<p>If you want to follow along with the hands-on examples in this tutorial, you'll need a Kubernetes cluster and Helm to get started. You'll find instructions in the <a href="../preparation/">Preparation</a> page.</p>
+<p>Before we get to the examples, let's review some of the different ways that an attacker might compromise a Kubernetes cluster.</p>
+<h2 id="kubernetes-attack-vectors">Kubernetes attack vectors<a class="headerlink" href="#kubernetes-attack-vectors" title="Permanent link">&para;</a></h2>
+<p><img alt="Kubernetes Attack Vectors" src="../img/kuse_0101.png" /></p>
+<p>We won't have time to explore all of these in detail but we will be covering some of the most important topics.</p>
 <ul>
-<li><a href="../scanning/">Scanning container images for vulnerabilities</a></li>
-<li><a href="../policies/">Configuring container images with security in mind, and checking them with policies</a></li>
-<li><a href="../settings/">Checking your Kubernetes configuration</a></li>
-<li><a href="../gitops/">Enhancing security using GitOps</a></li>
+<li>An attacker might take advantage of vulnerabilities in your application code. You can go a long way to address this by <a href="../scanning/">scanning container images for vulnerabilities</a></li>
+<li>If an attacker gets a foothold within a container, you want to prevent them from escaping the container to access the host or other components, by <a href="../policies/">configuring container images with security in mind, and checking them with policies</a></li>
+<li>The Kubernetes components and APIs offer more potential surfaces for attack, so you want to <a href="../settings/">checking your Kubernetes configuration</a> for settings that might leave your deployment vulnerable.</li>
+<li>At the root of many security issues lies human error, as well as bad actors. You can limit human access to the cluster, and thus <a href="../gitops/">enhancing security using GitOps</a></li>
 </ul>
-<h2 id="create-a-kubernetes-cluster">Create a Kubernetes cluster<a class="headerlink" href="#create-a-kubernetes-cluster" title="Permanent link">&para;</a></h2>
-<p>To follow along with the practical examples in this tutorial you'll need a Kubernetes cluster that you can experiment with. Since at times you will be deploying insecure code, please don't use your production cluster! You can run a cluster locally on your laptop, for example using <a href="https://kind.sigs.k8s.io">Kind - Kubernetes IN Docker</a>. We'll also be using Helm to run software on the Kind cluster.</p>
-<h3 id="install-kind">Install kind<a class="headerlink" href="#install-kind" title="Permanent link">&para;</a></h3>
-<p>You can skip this step if you already have an up-to-date installation of <code>kind</code>.</p>
-<p>On MacOS using Homebrew:</p>
-<div class="highlight"><pre><span></span><code>brew install kind
-</code></pre></div>
-
-<p>On MacOS / Linux:</p>
-<div class="highlight"><pre><span></span><code>curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64
-chmod +x ./kind
-mv ./kind /some-dir-in-your-PATH/kind
-</code></pre></div>
-
-<p>On Windows using Chocolatey:</p>
-<div class="highlight"><pre><span></span><code>choco install kind
-</code></pre></div>
-
-<p>For more details see the <a href="https://kind.sigs.k8s.io/docs/user/quick-start/">kind quickstart guide</a>.</p>
-<h3 id="create-the-kind-cluster">Create the kind cluster<a class="headerlink" href="#create-the-kind-cluster" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kind create cluster
-</code></pre></div>
-
-<p>Once it's up and running, check that you can see the node is up and running:</p>
-<div class="highlight"><pre><span></span><code>kubectl get nodes
-</code></pre></div>
-
-<p>This should show something like this:</p>
-<div class="highlight"><pre><span></span><code>NAME                 STATUS   ROLES    AGE   VERSION
-kind-control-plane   Ready    master   78m   v1.18.2
-</code></pre></div>
-
-<p>Great! You have a Kubernetes cluster running locally that you can experiment with.</p>
-<h2 id="install-helm">Install Helm<a class="headerlink" href="#install-helm" title="Permanent link">&para;</a></h2>
-<p>If you don't already have Helm on your laptop, you'll want to install that too. Find full instructions in the <a href="https://helm.sh/docs/intro/install/">Helm documentation</a> or here is a quick guide:</p>
-<p>On MacOS using Homebrew:</p>
-<div class="highlight"><pre><span></span><code>brew install helm
-</code></pre></div>
-
-<p>On MacOS / Linux:</p>
-<div class="highlight"><pre><span></span><code>curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod +x get_helm.sh
-./get_helm.sh
-</code></pre></div>
-
-<p>On Windows using Chocolatey:</p>
-<div class="highlight"><pre><span></span><code>choco install kubernetes-helm
-</code></pre></div>
-
-<p>If you have a fresh Kind installation there won't be any Helm charts installed yet, so a <code>helm ls</code> will return an empty list:</p>
-<div class="highlight"><pre><span></span><code>$ helm ls
-NAME    NAMESPACE   REVISION    UPDATED STATUS  CHART   APP VERSION
-</code></pre></div>
                 
                   
                 
@@ -542,13 +459,13 @@ NAME    NAMESPACE   REVISION    UPDATED STATUS  CHART   APP VERSION
           </a>
         
         
-          <a href="../compromise/" title="Compromise a pod!" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../preparation/" title="Preparation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Compromise a pod!
+                Preparation
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
