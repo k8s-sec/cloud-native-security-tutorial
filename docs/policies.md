@@ -15,8 +15,14 @@ We will be using an [example from the Kubernetes docs](https://kubernetes.io/doc
 so that you can read up on the details later on. 
 
 ```
-kubectl apply -f
-https://raw.githubusercontent.com/k8s-sec/cloud-native-security-tutorial/master/res/pod-security-context.yaml
+kubectl apply -f https://raw.githubusercontent.com/k8s-sec/cloud-native-security-tutorial/master/res/pod-security-context.yaml
+
+kubectl exec -it security-context -- sh
+
+echo something > /data/content
+
+cd /data && id
+
 ```
 
 See more at http://canihaznonprivilegedcontainers.info/
