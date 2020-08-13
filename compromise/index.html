@@ -431,7 +431,11 @@
                 <h1 id="a-compromised-pod">A compromised pod<a class="headerlink" href="#a-compromised-pod" title="Permanent link">&para;</a></h1>
 <p>In this section we deliberately introduce a container image with a known vulnerability so that you can enjoy the experience of exploiting it!</p>
 <h2 id="run-a-server-vulnerable-to-shellshock">Run a server vulnerable to Shellshock<a class="headerlink" href="#run-a-server-vulnerable-to-shellshock" title="Permanent link">&para;</a></h2>
-<p>We're using a container with <a href="https://en.wikipedia.org/wiki/Shellshock_(software_bug)">Shellshock</a>, a vulnerability in <code>bash</code> that allows an attacker to remotely execute commands. To make it really easy, we're providing a Helm chart that installs the vulnerable deployment. DO NOT RUN THIS IN A REAL CLUSTER!</p>
+<p>We're using a container with <a href="https://en.wikipedia.org/wiki/Shellshock_(software_bug)">Shellshock</a>, a vulnerability in <code>bash</code> that allows an attacker to remotely execute commands. To make it really easy, we're providing a Helm chart that installs the vulnerable deployment. </p>
+<div class="admonition danger">
+<p class="admonition-title">ONLY FOR TEST</p>
+<p>DO NOT RUN THIS IN A REAL CLUSTER!</p>
+</div>
 <div class="highlight"><pre><span></span><code>helm install shellshockable https://lizrice.github.io/shellshockable/shellshockable-0.1.0.tgz
 </code></pre></div>
 
