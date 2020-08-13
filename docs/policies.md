@@ -35,10 +35,21 @@ See more at http://canihaznonprivilegedcontainers.info/
 
 ## Network policies
 
-Let's create the cluster for it:
+Let's create the cluster for the network policies walkthrough 
+(kudos to [Alex](https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/)
+for the patch instructions):
 
 ```
+# can take a minute or two, depending on if you've pulled the container images
+# before or doing it the first time (then it can take 10min or more):
 kind create cluster --name cnnp --config res/network-policy-cluster-config.yaml
+
+# install Calico controller and custom resources, patch for testing:
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
+
+# verify setup, can take some 5 min until you see all in the 'Running' state:
+kubectl -n kube-system get pods | grep calico-node
 ```
 
 Now let's create workloads and define communication paths:
