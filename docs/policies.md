@@ -115,13 +115,36 @@ you see all pods in the `Running` state:
 kubectl -n kube-system get pods | grep calico-node
 ```
 
+Last but not least we install [Ambassador](https://www.getambassador.io/) as an
+ingress controller so that we can access to workloads from outside of the cluster:
+
+```
+kubectl apply -f https://github.com/datawire/ambassador-operator/releases/latest/download/ambassador-operator-crds.yaml && \
+kubectl apply -n ambassador -f https://github.com/datawire/ambassador-operator/releases/latest/download/ambassador-operator-kind.yaml && \
+kubectl wait --timeout=180s -n ambassador --for=condition=deployed ambassadorinstallations/ambassador
+```
+
+And with that we're ready to apply some network policies.
+
 ### Limit ingress traffic
 
 Now let's create a workload and define communication paths:
 
 ```
-#TBD: deploy pods in two namespaces that can talk to each other
-#     and two that can not talk to each other (or ingress/egress)
+kubectl create ns npdemo
+
+kubectl -n npdemo apply -f res/np-workload.yaml
+
+curl localhost/api
+
+kubectl -n npdemo apply -f res/deny-all.yaml
+
+curl localhost/api
+
+kubectl -n npdemo apply -f res/allow-frontend.yaml
+kubectl -n npdemo label pods --selector=app=nginx role=frontend
+
+curl localhost/api
 ```
 
 Learn more about network policies via:
