@@ -4,7 +4,12 @@ In this section we deliberately introduce a container image with a known vulnera
 
 ## Run a server vulnerable to Shellshock
 
-We're using a container with [Shellshock](https://en.wikipedia.org/wiki/Shellshock_(software_bug)), a vulnerability in `bash` that allows an attacker to remotely execute commands. To make it really easy, we're providing a Helm chart that installs the vulnerable deployment. DO NOT RUN THIS IN A REAL CLUSTER!
+We're using a container with [Shellshock](https://en.wikipedia.org/wiki/Shellshock_(software_bug)), a vulnerability in `bash` that allows an attacker to remotely execute commands. To make it really easy, we're providing a Helm chart that installs the vulnerable deployment. 
+
+
+!!! danger  "ONLY FOR TEST" 
+
+    DO NOT RUN THIS IN A REAL CLUSTER!
 
 ```
 helm install shellshockable https://lizrice.github.io/shellshockable/shellshockable-0.1.0.tgz
