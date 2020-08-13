@@ -422,6 +422,10 @@ So let's have a look at this.</p>
 <h2 id="least-privileges">Least privileges<a class="headerlink" href="#least-privileges" title="Permanent link">&para;</a></h2>
 <p>First off we start with the simple case of a Kubernetes security context, 
 allowing you to specify runtime policies around privileges and access control.</p>
+<p>Let's create the cluster for it:</p>
+<div class="highlight"><pre><span></span><code>kind create cluster --name cnsectut --config res/security-context-cluster-config.yaml
+</code></pre></div>
+
 <p>We will be using an <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">example from the Kubernetes docs</a>
 so that you can read up on the details later on. </p>
 <div class="highlight"><pre><span></span><code>kubectl apply -f https://raw.githubusercontent.com/k8s-sec/cloud-native-security-tutorial/master/res/pod-security-context.yaml
@@ -435,8 +439,32 @@ cd /data &amp;&amp; id
 
 <p>See more at http://canihaznonprivilegedcontainers.info/</p>
 <h2 id="network-policies">Network policies<a class="headerlink" href="#network-policies" title="Permanent link">&para;</a></h2>
-<p>https://banzaicloud.com/blog/network-policy/</p>
-<p>https://medium.com/@tufin/best-practices-for-kubernetes-network-policies-2b643c4b1aa</p>
+<p>Let's create the cluster for the network policies walkthrough 
+(kudos to <a href="https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/">Alex</a>
+for the patch instructions):</p>
+<div class="highlight"><pre><span></span><code># can take a minute or two, depending on if you&#39;ve pulled the container images
+# before or doing it the first time (then it can take 10min or more):
+kind create cluster --name cnnp --config res/network-policy-cluster-config.yaml
+
+# install Calico controller and custom resources, patch for testing:
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
+
+# verify setup, can take some 5 min until you see all in the &#39;Running&#39; state:
+kubectl -n kube-system get pods | grep calico-node
+</code></pre></div>
+
+<p>Now let's create workloads and define communication paths:</p>
+<div class="highlight"><pre><span></span><code>#TBD: deploy pods in two namespaces that can talk to each other
+#     and two that can not talk to each other (or ingress/egress)
+</code></pre></div>
+
+<p>See more at:</p>
+<ul>
+<li><a href="https://banzaicloud.com/blog/network-policy/">Exploring Network Policies in Kubernetes</a></li>
+<li><a href="https://medium.com/@tufin/best-practices-for-kubernetes-network-policies-2b643c4b1aa">Best Practices for Kubernetes Network Policies</a></li>
+<li><a href="https://ahmet.im/blog/kubernetes-network-policy/">Securing Kubernetes Cluster Networking</a></li>
+</ul>
 <h2 id="opa-in-action">OPA in action<a class="headerlink" href="#opa-in-action" title="Permanent link">&para;</a></h2>
 <p>what is it</p>
 <p>mini example via https://play.openpolicyagent.org/</p>
