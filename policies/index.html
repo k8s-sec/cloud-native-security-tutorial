@@ -339,9 +339,29 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#general-purpose-policies" class="md-nav__link">
+    General purpose policies
+  </a>
+  
+    <nav class="md-nav" aria-label="General purpose policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#opa-in-action" class="md-nav__link">
     OPA in action
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opa-gatekeeper" class="md-nav__link">
+    OPA Gatekeeper
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -468,9 +488,29 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#general-purpose-policies" class="md-nav__link">
+    General purpose policies
+  </a>
+  
+    <nav class="md-nav" aria-label="General purpose policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#opa-in-action" class="md-nav__link">
     OPA in action
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opa-gatekeeper" class="md-nav__link">
+    OPA Gatekeeper
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -586,21 +626,42 @@ kubectl wait --timeout=180s -n ambassador --for=condition=deployed ambassadorins
 
 <p>And with that we're ready to apply some network policies.</p>
 <h3 id="limit-ingress-traffic">Limit ingress traffic<a class="headerlink" href="#limit-ingress-traffic" title="Permanent link">&para;</a></h3>
-<p>Now let's create a workload and define communication paths:</p>
+<p>Now let's see network policies in action by creating a public-facing workload
+and define the communication paths.</p>
+<p>First off, we want to do all of the following in a dedicated namespace called
+<code>npdemo</code>:</p>
 <div class="highlight"><pre><span></span><code>kubectl create ns npdemo
+</code></pre></div>
 
-kubectl -n npdemo apply -f res/np-workload.yaml
+<p>Now, create the workload (deployment, service, ingress):</p>
+<div class="highlight"><pre><span></span><code>kubectl -n npdemo apply -f res/np-workload.yaml
+</code></pre></div>
 
-curl localhost/api
+<p>When you now query the endpoint defined by the <a href="https://github.com/k8s-sec/cloud-native-security-tutorial/blob/b5efb0ee54fbb3ded4f5cac8d7834f1e59881948/res/np-workload.yaml#L33">ingress resource</a>
+you deployed in the previous step you will find that it works as expected
+(remember: by default, all is allowed/open):</p>
+<div class="highlight"><pre><span></span><code>curl localhost/api
+</code></pre></div>
 
-kubectl -n npdemo apply -f res/deny-all.yaml
+<p>Now we shut down all traffic with:</p>
+<div class="highlight"><pre><span></span><code>kubectl -n npdemo apply -f res/deny-all.yaml
+</code></pre></div>
 
-curl localhost/api
+<p>And try again:</p>
+<div class="highlight"><pre><span></span><code>curl localhost/api
+</code></pre></div>
 
-kubectl -n npdemo apply -f res/allow-frontend.yaml
+<p>As we'd have hoped and expected the access is now denied (might need to give it
+a second or so until the change is picked up).</p>
+<p>But now, how do we allow traffic to the frontend (represented by the NGINX web
+server)? Well, we define another network policy that allows ingress to stuff
+labelled with <code>role=frontend</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl -n npdemo apply -f res/allow-frontend.yaml &amp;&amp; \
 kubectl -n npdemo label pods --selector=app=nginx role=frontend
+</code></pre></div>
 
-curl localhost/api
+<p>And now it should work again:</p>
+<div class="highlight"><pre><span></span><code>curl localhost/api
 </code></pre></div>
 
 <p>Learn more about network policies via:</p>
@@ -611,10 +672,13 @@ curl localhost/api
 </ul>
 <p>Clean up with <code>kind delete cluster --name cnnp</code> when you're done exploring
 this topic.</p>
-<h2 id="opa-in-action">OPA in action<a class="headerlink" href="#opa-in-action" title="Permanent link">&para;</a></h2>
+<h2 id="general-purpose-policies">General purpose policies<a class="headerlink" href="#general-purpose-policies" title="Permanent link">&para;</a></h2>
 <p>The Open Policy Agent (OPA) project is a </p>
+<h3 id="opa-in-action">OPA in action<a class="headerlink" href="#opa-in-action" title="Permanent link">&para;</a></h3>
 <p>mini example via https://play.openpolicyagent.org/</p>
-<p>OPA Gatekeeper</p>
+<h3 id="opa-gatekeeper">OPA Gatekeeper<a class="headerlink" href="#opa-gatekeeper" title="Permanent link">&para;</a></h3>
+<p>Learn more about OPA via:
+- <a href="https://www.cncf.io/blog/2020/08/13/introducing-policy-as-code-the-open-policy-agent-opa/">Introducing Policy As Code: The Open Policy Agent (OPA)</a></p>
                 
               
               
