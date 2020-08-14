@@ -193,15 +193,183 @@ this topic.
 
 ## General purpose policies
 
-The Open Policy Agent (OPA) project is a 
+We have now seen container runtime policies as well as network policies in
+action. You should by now have an idea what policies are and how to go about
+defining and enforcing them. But did you notice one thing: for every type of 
+policy, we had a different mechanism (and mind you, we only had a look at two 
+types). Also, when you want to introduce further policies, for example, company
+ones or maybe stuff you need to do to be compliant with some regulatory
+framework such as PCI DSS. How do you deal with this in the context of
+containers?
+
+Meet the CNCF [Open Policy Agent](https://www.openpolicyagent.org/) (OPA) project.
+
+OPA (pronounced "oh-pa") is a general-purpose policy engine that comes with a powerful rule-based
+policy language called Rego (pronounced "ray-go"). Rego takes any kind of JSON
+data as input and matches against a set of rules. It also comes with a long list
+of [built-in](https://www.openpolicyagent.org/docs/latest/policy-reference/#built-in-functions)
+functions, with from simple string manipulation stuff like
+`strings.replace_n(patterns, string)` to fancy things such as
+`crypto.x509.parse_certificates(string)`.
+
+Enough theory, let's jump into the deep end using the [OPA Rego
+playground](https://play.openpolicyagent.org/).
 
 ### OPA in action
-mini example via https://play.openpolicyagent.org/
+
+Let's say you have the following input data, which is an array of timestamped
+entries:
+
+```
+[
+    {
+        "msg": "within a week",
+        "timestamp": "2020-03-27T12:00:00Z"
+    },
+    {
+        "msg": "same year",
+        "timestamp": "2020-10-09T12:00:00Z"
+    },
+    {
+        "msg": "last year",
+        "timestamp": "2019-12-24T12:00:00Z"
+    }
+]
+```
+
+So how can we check if a given entry is within a certain time window?
+For example, you might require that a certain commit is not older than a week.
+
+The following Rego file defines the policy we want to enforce (with a fixed
+point in time `2020-04-01T12:00:00Z` as a reference):
+
+```
+package play
+
+ts_reference := time.parse_rfc3339_ns("2020-04-01T12:00:00Z")
+
+time_window_check[results] {
+  some i
+  msg := input[i].msg
+  ts := time.parse_rfc3339_ns(input[i].timestamp)
+  results := {
+    "same_year" : same_year(ts),
+    "within_a_week" : within_a_week(ts),
+    "message": msg,
+  }
+}
+
+same_year(ts) {
+  [c_y, c_m, c_d] := time.date(ts_reference)
+  [ts_y, ts_m, ts_d] := time.date(ts)
+  ts_y == c_y
+}
+
+within_a_week(ts) {
+  a_week := 60 * 60 * 24 * 7
+  diff := ts_reference/1000/1000/1000 - ts/1000/1000/1000
+  diff < a_week
+  ts_reference > ts
+}
+```
+
+Applying above Rego rule set to the input data, that is, querying for 
+`time_window_check[results]` yields:
+
+```
+Found 1 result in 872.098 µs.
+{
+    "time_window_check": [
+        {
+            "message": "within a week",
+            "same_year": true,
+            "within_a_week": true
+        }
+    ],
+    "ts_reference": 1585742400000000000
+}
+```
+
+You can try this online yourself via the [prepared playground example](https://play.openpolicyagent.org/p/6v2EfFSq3l).
 
 ### OPA Gatekeeper
 
-Learn more about OPA via:
+Now that you have an idea what OPA and Rego is you might wonder how hard it is
+to use OPA/Rego in the context of Kubernetes. Turns out that writing, testing,
+and enforcing these Rego rules is relatively hard and something that you don't
+want to push onto individual folks. Good news is that the community came together 
+to tackle this problem in the form of the [Gatekeeper](https://github.com/open-policy-agent/gatekeeper) project.
+
+The Gatekeeper project solves the challenge of having to write and enforce Rego
+rules by using the Kubernetes-native extension points of custom resources and
+[dynamic admission control](https://kubernetes.io/blog/2019/03/21/a-guide-to-kubernetes-admission-controllers/).
+
+As an end-user it's as simple as follows to use OPA with Gatekeeper. After
+installing Gatekeeper, define and apply a custom resource like the following:
+
+```
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabels
+metadata:
+  name: test-ns-label
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Namespace"]
+  parameters:
+    labels: ["test"]
+```
+
+This constraint above requires that all namespaces MUST have a label `test`.
+
+But where is the Rego rule set I hear you ask?
+
+Gatekeeper employs a separation of duties approach where (someone other than the
+end-user) defines a template like so:
+
+```
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequiredlabels
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequiredLabels
+        listKind: K8sRequiredLabelsList
+        plural: k8srequiredlabels
+        singular: k8srequiredlabels
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          properties:
+            labels:
+              type: array
+              items: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequiredlabels
+
+        violation[{"msg": msg, "details": {"missing_labels": missing}}] {
+          provided := {label | input.review.object.metadata.labels[label]}
+          required := {label | label := input.parameters.labels[_]}
+          missing := required - provided
+          count(missing) > 0
+          msg := sprintf("you must provide labels: %v", [missing])
+        }
+```
+
+Above template effectively represents a custom resource definition that
+Gatekeeper understands and can enforce via an Webhook registered in the
+Kubernetes API server.
+
+Learn more about OPA and Gatekeeper via:
 
 - [Introducing Policy As Code: The Open Policy Agent (OPA)](https://www.cncf.io/blog/2020/08/13/introducing-policy-as-code-the-open-policy-agent-opa/)
 - [OPA blog](https://blog.openpolicyagent.org/)
 - [Styra Academy](https://academy.styra.com/)
+- [OPA Gatekeeper: Policy and Governance for Kubernetes](https://kubernetes.io/blog/2019/08/06/opa-gatekeeper-policy-and-governance-for-kubernetes/)
+- [CNCF webinar: Kubernetes with OPA Gatekeeper](https://www.youtube.com/watch?v=v4wJE3I8BYM)
