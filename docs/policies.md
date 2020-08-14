@@ -201,4 +201,7 @@ mini example via https://play.openpolicyagent.org/
 ### OPA Gatekeeper
 
 Learn more about OPA via:
+
 - [Introducing Policy As Code: The Open Policy Agent (OPA)](https://www.cncf.io/blog/2020/08/13/introducing-policy-as-code-the-open-policy-agent-opa/)
+- [OPA blog](https://blog.openpolicyagent.org/)
+- [Styra Academy](https://academy.styra.com/)
