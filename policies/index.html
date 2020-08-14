@@ -673,15 +673,163 @@ kubectl -n npdemo label pods --selector=app=nginx role=frontend
 <p>Clean up with <code>kind delete cluster --name cnnp</code> when you're done exploring
 this topic.</p>
 <h2 id="general-purpose-policies">General purpose policies<a class="headerlink" href="#general-purpose-policies" title="Permanent link">&para;</a></h2>
-<p>The Open Policy Agent (OPA) project is a </p>
+<p>We have now seen container runtime policies as well as network policies in
+action. You should by now have an idea what policies are and how to go about
+defining and enforcing them. But did you notice one thing: for every type of 
+policy, we had a different mechanism (and mind you, we only had a look at two 
+types). Also, when you want to introduce further policies, for example, company
+ones or maybe stuff you need to do to be compliant with some regulatory
+framework such as PCI DSS. How do you deal with this in the context of
+containers?</p>
+<p>Meet the CNCF <a href="https://www.openpolicyagent.org/">Open Policy Agent</a> (OPA) project.</p>
+<p>OPA (pronounced "oh-pa") is a general-purpose policy engine that comes with a powerful rule-based
+policy language called Rego (pronounced "ray-go"). Rego takes any kind of JSON
+data as input and matches against a set of rules. It also comes with a long list
+of <a href="https://www.openpolicyagent.org/docs/latest/policy-reference/#built-in-functions">built-in</a>
+functions, with from simple string manipulation stuff like
+<code>strings.replace_n(patterns, string)</code> to fancy things such as
+<code>crypto.x509.parse_certificates(string)</code>.</p>
+<p>Enough theory, let's jump into the deep end using the <a href="https://play.openpolicyagent.org/">OPA Rego
+playground</a>.</p>
 <h3 id="opa-in-action">OPA in action<a class="headerlink" href="#opa-in-action" title="Permanent link">&para;</a></h3>
-<p>mini example via https://play.openpolicyagent.org/</p>
+<p>Let's say you have the following input data, which is an array of timestamped
+entries:</p>
+<div class="highlight"><pre><span></span><code>[
+    {
+        &quot;msg&quot;: &quot;within a week&quot;,
+        &quot;timestamp&quot;: &quot;2020-03-27T12:00:00Z&quot;
+    },
+    {
+        &quot;msg&quot;: &quot;same year&quot;,
+        &quot;timestamp&quot;: &quot;2020-10-09T12:00:00Z&quot;
+    },
+    {
+        &quot;msg&quot;: &quot;last year&quot;,
+        &quot;timestamp&quot;: &quot;2019-12-24T12:00:00Z&quot;
+    }
+]
+</code></pre></div>
+
+<p>So how can we check if a given entry is within a certain time window?
+For example, you might require that a certain commit is not older than a week.</p>
+<p>The following Rego file defines the policy we want to enforce (with a fixed
+point in time <code>2020-04-01T12:00:00Z</code> as a reference):</p>
+<div class="highlight"><pre><span></span><code>package play
+
+ts_reference := time.parse_rfc3339_ns(&quot;2020-04-01T12:00:00Z&quot;)
+
+time_window_check[results] {
+  some i
+  msg := input[i].msg
+  ts := time.parse_rfc3339_ns(input[i].timestamp)
+  results := {
+    &quot;same_year&quot; : same_year(ts),
+    &quot;within_a_week&quot; : within_a_week(ts),
+    &quot;message&quot;: msg,
+  }
+}
+
+same_year(ts) {
+  [c_y, c_m, c_d] := time.date(ts_reference)
+  [ts_y, ts_m, ts_d] := time.date(ts)
+  ts_y == c_y
+}
+
+within_a_week(ts) {
+  a_week := 60 * 60 * 24 * 7
+  diff := ts_reference/1000/1000/1000 - ts/1000/1000/1000
+  diff &lt; a_week
+  ts_reference &gt; ts
+}
+</code></pre></div>
+
+<p>Applying above Rego rule set to the input data, that is, querying for 
+<code>time_window_check[results]</code> yields:</p>
+<div class="highlight"><pre><span></span><code>Found 1 result in 872.098 µs.
+{
+    &quot;time_window_check&quot;: [
+        {
+            &quot;message&quot;: &quot;within a week&quot;,
+            &quot;same_year&quot;: true,
+            &quot;within_a_week&quot;: true
+        }
+    ],
+    &quot;ts_reference&quot;: 1585742400000000000
+}
+</code></pre></div>
+
+<p>You can try this online yourself via the <a href="https://play.openpolicyagent.org/p/6v2EfFSq3l">prepared playground example</a>.</p>
 <h3 id="opa-gatekeeper">OPA Gatekeeper<a class="headerlink" href="#opa-gatekeeper" title="Permanent link">&para;</a></h3>
-<p>Learn more about OPA via:</p>
+<p>Now that you have an idea what OPA and Rego is you might wonder how hard it is
+to use OPA/Rego in the context of Kubernetes. Turns out that writing, testing,
+and enforcing these Rego rules is relatively hard and something that you don't
+want to push onto individual folks. Good news is that the community came together 
+to tackle this problem in the form of the <a href="https://github.com/open-policy-agent/gatekeeper">Gatekeeper</a> project.</p>
+<p>The Gatekeeper project solves the challenge of having to write and enforce Rego
+rules by using the Kubernetes-native extension points of custom resources and
+<a href="https://kubernetes.io/blog/2019/03/21/a-guide-to-kubernetes-admission-controllers/">dynamic admission control</a>.</p>
+<p>As an end-user it's as simple as follows to use OPA with Gatekeeper. After
+installing Gatekeeper, define and apply a custom resource like the following:</p>
+<div class="highlight"><pre><span></span><code>apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabels
+metadata:
+  name: test-ns-label
+spec:
+  match:
+    kinds:
+      - apiGroups: [&quot;&quot;]
+        kinds: [&quot;Namespace&quot;]
+  parameters:
+    labels: [&quot;test&quot;]
+</code></pre></div>
+
+<p>This constraint above requires that all namespaces MUST have a label <code>test</code>.</p>
+<p>But where is the Rego rule set I hear you ask?</p>
+<p>Gatekeeper employs a separation of duties approach where (someone other than the
+end-user) defines a template like so:</p>
+<div class="highlight"><pre><span></span><code>apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequiredlabels
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequiredLabels
+        listKind: K8sRequiredLabelsList
+        plural: k8srequiredlabels
+        singular: k8srequiredlabels
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          properties:
+            labels:
+              type: array
+              items: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequiredlabels
+
+        violation[{&quot;msg&quot;: msg, &quot;details&quot;: {&quot;missing_labels&quot;: missing}}] {
+          provided := {label | input.review.object.metadata.labels[label]}
+          required := {label | label := input.parameters.labels[_]}
+          missing := required - provided
+          count(missing) &gt; 0
+          msg := sprintf(&quot;you must provide labels: %v&quot;, [missing])
+        }
+</code></pre></div>
+
+<p>Above template effectively represents a custom resource definition that
+Gatekeeper understands and can enforce via an Webhook registered in the
+Kubernetes API server.</p>
+<p>Learn more about OPA and Gatekeeper via:</p>
 <ul>
 <li><a href="https://www.cncf.io/blog/2020/08/13/introducing-policy-as-code-the-open-policy-agent-opa/">Introducing Policy As Code: The Open Policy Agent (OPA)</a></li>
 <li><a href="https://blog.openpolicyagent.org/">OPA blog</a></li>
 <li><a href="https://academy.styra.com/">Styra Academy</a></li>
+<li><a href="https://kubernetes.io/blog/2019/08/06/opa-gatekeeper-policy-and-governance-for-kubernetes/">OPA Gatekeeper: Policy and Governance for Kubernetes</a></li>
+<li><a href="https://www.youtube.com/watch?v=v4wJE3I8BYM">CNCF webinar: Kubernetes with OPA Gatekeeper</a></li>
 </ul>
                 
               
