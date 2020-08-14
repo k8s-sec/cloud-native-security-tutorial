@@ -128,22 +128,57 @@ And with that we're ready to apply some network policies.
 
 ### Limit ingress traffic
 
-Now let's create a workload and define communication paths:
+Now let's see network policies in action by creating a public-facing workload
+and define the communication paths.
+
+First off, we want to do all of the following in a dedicated namespace called
+`npdemo`:
 
 ```
 kubectl create ns npdemo
+```
 
+Now, create the workload (deployment, service, ingress):
+
+```
 kubectl -n npdemo apply -f res/np-workload.yaml
+```
 
+When you now query the endpoint defined by the [ingress resource](https://github.com/k8s-sec/cloud-native-security-tutorial/blob/b5efb0ee54fbb3ded4f5cac8d7834f1e59881948/res/np-workload.yaml#L33)
+you deployed in the previous step you will find that it works as expected
+(remember: by default, all is allowed/open):
+
+```
 curl localhost/api
+```
 
+Now we shut down all traffic with:
+
+```
 kubectl -n npdemo apply -f res/deny-all.yaml
+```
 
+And try again:
+
+```
 curl localhost/api
+```
 
-kubectl -n npdemo apply -f res/allow-frontend.yaml
+As we'd have hoped and expected the access is now denied (might need to give it
+a second or so until the change is picked up).
+
+But now, how do we allow traffic to the frontend (represented by the NGINX web
+server)? Well, we define another network policy that allows ingress to stuff
+labelled with `role=frontend`:
+
+```
+kubectl -n npdemo apply -f res/allow-frontend.yaml && \
 kubectl -n npdemo label pods --selector=app=nginx role=frontend
+```
 
+And now it should work again:
+
+```
 curl localhost/api
 ```
 
@@ -156,12 +191,14 @@ Learn more about network policies via:
 Clean up with `kind delete cluster --name cnnp` when you're done exploring
 this topic.
 
-## OPA in action
+## General purpose policies
 
 The Open Policy Agent (OPA) project is a 
 
+### OPA in action
 mini example via https://play.openpolicyagent.org/
 
-OPA Gatekeeper
+### OPA Gatekeeper
 
-
+Learn more about OPA via:
+- [Introducing Policy As Code: The Open Policy Agent (OPA)](https://www.cncf.io/blog/2020/08/13/introducing-policy-as-code-the-open-policy-agent-opa/)
