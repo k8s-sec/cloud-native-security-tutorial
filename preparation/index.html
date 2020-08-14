@@ -264,8 +264,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#create-the-kind-cluster" class="md-nav__link">
-    Create the kind cluster
+  <a href="#create-cluster" class="md-nav__link">
+    Create cluster
   </a>
   
 </li>
@@ -278,6 +278,13 @@
         <li class="md-nav__item">
   <a href="#install-helm" class="md-nav__link">
     Install Helm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clone-repo" class="md-nav__link">
+    Clone repo
   </a>
   
 </li>
@@ -402,8 +409,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#create-the-kind-cluster" class="md-nav__link">
-    Create the kind cluster
+  <a href="#create-cluster" class="md-nav__link">
+    Create cluster
   </a>
   
 </li>
@@ -416,6 +423,13 @@
         <li class="md-nav__item">
   <a href="#install-helm" class="md-nav__link">
     Install Helm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clone-repo" class="md-nav__link">
+    Clone repo
   </a>
   
 </li>
@@ -442,29 +456,36 @@
                 
                 <h1 id="preparation">Preparation<a class="headerlink" href="#preparation" title="Permanent link">&para;</a></h1>
 <h2 id="create-a-kubernetes-cluster">Create a Kubernetes cluster<a class="headerlink" href="#create-a-kubernetes-cluster" title="Permanent link">&para;</a></h2>
-<p>To follow along with the practical examples in this tutorial you'll need a Kubernetes cluster that you can experiment with. Since at times you will be deploying insecure code, please don't use your production cluster! You can run a cluster locally on your laptop, for example using <a href="https://kind.sigs.k8s.io">Kind - Kubernetes IN Docker</a>. We'll also be using Helm to run software on the Kind cluster.</p>
+<p>To follow along with the practical examples in this tutorial you'll need a
+Kubernetes cluster that you can experiment with. Since at times you will be
+deploying insecure code, please don't use your production cluster! </p>
+<p>You can run a cluster locally on your laptop, for example, we will be
+using <a href="https://kind.sigs.k8s.io">Kubernetes IN Docker</a> or <code>kind</code> for short
+along with Helm to install and run apps on the cluster.</p>
 <h3 id="install-kind">Install kind<a class="headerlink" href="#install-kind" title="Permanent link">&para;</a></h3>
 <p>You can skip this step if you already have an up-to-date installation of <code>kind</code>.</p>
-<p>On MacOS using Homebrew:</p>
+<p>On MacOS, using Homebrew:</p>
 <div class="highlight"><pre><span></span><code>brew install kind
 </code></pre></div>
 
-<p>On MacOS / Linux:</p>
+<p>On MacOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64
 chmod +x ./kind
 mv ./kind /some-dir-in-your-PATH/kind
 </code></pre></div>
 
-<p>On Windows using Chocolatey:</p>
+<p>On Windows, using Chocolatey:</p>
 <div class="highlight"><pre><span></span><code>choco install kind
 </code></pre></div>
 
 <p>For more details see the <a href="https://kind.sigs.k8s.io/docs/user/quick-start/">kind quickstart guide</a>.</p>
-<h3 id="create-the-kind-cluster">Create the kind cluster<a class="headerlink" href="#create-the-kind-cluster" title="Permanent link">&para;</a></h3>
+<h3 id="create-cluster">Create cluster<a class="headerlink" href="#create-cluster" title="Permanent link">&para;</a></h3>
+<p>To create a <code>kind</code> cluster (effectively a bunch of Docker containers running 
+locally):</p>
 <div class="highlight"><pre><span></span><code>kind create cluster
 </code></pre></div>
 
-<p>Once it's up and running, check that you can see the node is up and running:</p>
+<p>Once it's up and running, check that you can see the worker node is up and running:</p>
 <div class="highlight"><pre><span></span><code>kubectl get nodes
 </code></pre></div>
 
@@ -473,27 +494,45 @@ mv ./kind /some-dir-in-your-PATH/kind
 kind-control-plane   Ready    master   78m   v1.18.2
 </code></pre></div>
 
-<p>Great! You have a Kubernetes cluster running locally that you can experiment with.</p>
+<p>Great! You have a Kubernetes cluster running locally that you can experiment with.
+Where appropriate, we will create dedicated <code>kind</code> clusters with certain configurations.</p>
 <h2 id="install-helm">Install Helm<a class="headerlink" href="#install-helm" title="Permanent link">&para;</a></h2>
-<p>If you don't already have Helm on your laptop, you'll want to install that too. Find full instructions in the <a href="https://helm.sh/docs/intro/install/">Helm documentation</a> or here is a quick guide:</p>
-<p>On MacOS using Homebrew:</p>
+<p>If you don't already have Helm on your laptop, you'll want to install that too.
+Find full instructions in the <a href="https://helm.sh/docs/intro/install/">Helm documentation</a> or here is a quick guide:</p>
+<p>On MacOS, using Homebrew:</p>
 <div class="highlight"><pre><span></span><code>brew install helm
 </code></pre></div>
 
-<p>On MacOS / Linux:</p>
+<p>On MacOS/Linux:</p>
 <div class="highlight"><pre><span></span><code>curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod +x get_helm.sh
 ./get_helm.sh
 </code></pre></div>
 
-<p>On Windows using Chocolatey:</p>
+<p>On Windows, using Chocolatey:</p>
 <div class="highlight"><pre><span></span><code>choco install kubernetes-helm
 </code></pre></div>
 
-<p>If you have a fresh Kind installation there won't be any Helm charts installed yet, so a <code>helm ls</code> will return an empty list:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have a fresh Kind installation there won't be any Helm charts installed
+yet, so a <code>helm ls</code> will return an empty list:</p>
 <div class="highlight"><pre><span></span><code>$ helm ls
 NAME    NAMESPACE   REVISION    UPDATED STATUS  CHART   APP VERSION
 </code></pre></div>
+
+</div>
+<h2 id="clone-repo">Clone repo<a class="headerlink" href="#clone-repo" title="Permanent link">&para;</a></h2>
+<p>In certain sections, you'll be using certain configuration files and Kubernetes
+manifests as defined in the <a href="https://github.com/k8s-sec/cloud-native-security-tutorial/tree/master/res"><code>res/</code> directory</a>
+of our GitHub repository.</p>
+<p>So, either download the content of said repository or simply clone the repo with:</p>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/k8s-sec/cloud-native-security-tutorial.git
+</code></pre></div>
+
+<p>Unless we say otherwise, we assume <code>cloud-native-security-tutorial/</code> to be the
+base directory, going forward.</p>
+<p>OK and with this you're all set and ready to go!</p>
                 
               
               
