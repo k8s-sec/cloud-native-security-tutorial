@@ -225,16 +225,35 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href=".." title="Overview" class="md-nav__link">
       Overview
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -243,10 +262,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -255,22 +274,48 @@
     </a>
   </li>
 
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../compromise/" title="Compromise a pod!" class="md-nav__link">
-      Compromise a pod!
-    </a>
+        
+      </ul>
+    </nav>
   </li>
 
     
       
       
       
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Exercises
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Exercises
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../compromise/" title="Compromised pod" class="md-nav__link">
+      Compromised pod
+    </a>
+  </li>
+
+        
+          
+          
+          
 
   
 
@@ -385,10 +430,10 @@
     
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -397,10 +442,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -409,10 +454,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -421,16 +466,45 @@
     </a>
   </li>
 
+        
+      </ul>
+    </nav>
+  </li>
+
     
       
       
       
 
 
-  <li class="md-nav__item">
-    <a href="../conclusions/" title="Conclusion" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
       Conclusion
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Conclusion
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../conclusions/" title="Conclusions" class="md-nav__link">
+      Conclusions
     </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -556,28 +630,33 @@
 <p>Let's start by installing Trivy so we can run it locally.</p>
 <h3 id="install-trivy">Install Trivy<a class="headerlink" href="#install-trivy" title="Permanent link">&para;</a></h3>
 <p>On MacOS using Homebrew:</p>
-<div class="highlight"><pre><span></span><code>brew install aquasecurity/trivy/trivy
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">brew install aquasecurity/trivy/trivy</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>On MacOS / Linux:</p>
-<div class="highlight"><pre><span></span><code>curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Trivy does not have a native binary for Windows, but you can <a href="https://github.com/aquasecurity/trivy#docker">run Trivy as a container</a>.</p>
 <p>For more details see the <a href="https://github.com/aquasecurity/trivy#installation">installation instructions</a>.</p>
 <h3 id="run-trivy-to-scan-images">Run Trivy to scan images<a class="headerlink" href="#run-trivy-to-scan-images" title="Permanent link">&para;</a></h3>
 <p>To scan an image simply run <code>trivy image &lt;image&gt;</code>. For example, to find the vulnerabilities in the image used in the Shellshock-compromised pod, run this:</p>
-<div class="highlight"><pre><span></span><code>trivy image lizrice/shellshockable:0.1.0
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">trivy image lizrice/shellshockable:0.1.0</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>The Shellshock vulnerability is classed as HIGH severity, and it has the identifier <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6271">CVE-2014-6271</a>.</p>
 <p>If you are seeing a lot of results you might want to filter out the lower severity results. For example:</p>
-<div class="highlight"><pre><span></span><code>trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.1.0
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.1.0</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>For comparison, try this version of the image that does not have the Shellshock vulnerability:</p>
-<div class="highlight"><pre><span></span><code>trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.3.0
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.3.0</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Now try Trivy on your favourite images!</p>
 <h2 id="including-vulnerability-scanning-in-cicd">Including vulnerability scanning in CI/CD<a class="headerlink" href="#including-vulnerability-scanning-in-cicd" title="Permanent link">&para;</a></h2>
@@ -620,74 +699,102 @@
 <p>Install Starboard as a kubectl plugin:</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code>kubectl krew install starboard
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl krew install starboard
 </code></pre></div>
+</td></tr></table>
 
 <ol>
 <li>Check that it's working</li>
 </ol>
-<div class="highlight"><pre><span></span><code>kubectl starboard <span class="nb">help</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl starboard <span class="nb">help</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>On Mac you may get warnings about not being able to verify the developer - see <a href="https://github.com/aquasecurity/starboard#starboard-cannot-be-opened-because-the-developer-cannot-be-verified-macos">this guide to resolve them</a>.</p>
 <ol>
 <li>Initialize Starboard</li>
 </ol>
-<div class="highlight"><pre><span></span><code>kubectl starboard init
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl starboard init
 </code></pre></div>
+</td></tr></table>
 
 <ol>
 <li>Check that this has created some CRDs</li>
 </ol>
-<div class="highlight"><pre><span></span><code>kubectl get crds
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl get crds
 </code></pre></div>
+</td></tr></table>
 
 <h3 id="find-vulnerabilities">Find vulnerabilities<a class="headerlink" href="#find-vulnerabilities" title="Permanent link">&para;</a></h3>
 <p>Starboard uses Trivy to populate some <code>vulnerabilities</code> CRs that relate to running workloads. Let's find the vulnerabilities in the deployment we created for the Shellshock demo.</p>
-<div class="highlight"><pre><span></span><code>kubectl starboard find vulns --delete-scan-job<span class="o">=</span><span class="nb">false</span> deployment/shellshockable
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl starboard find vulns --delete-scan-job<span class="o">=</span><span class="nb">false</span> deployment/shellshockable
 </code></pre></div>
+</td></tr></table>
 
 <p>This will take a few seconds. The <code>--delete-scan-job=false</code> parameter allows us to inspect the job that Starboard creates to run Trivy. But first let's look at the results:</p>
-<div class="highlight"><pre><span></span><code>kubectl starboard get vulns deployment/shellshockable
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl starboard get vulns deployment/shellshockable
 </code></pre></div>
+</td></tr></table>
 
 <p>This outputs all the vulnerability information (including the details about Shellshock, with ID CVE-2014-6271).</p>
 <p>These details have been stored in a <code>vulns</code> resource that you can view with a regular <code>kubectl get</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl  get vulns --show-labels
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl  get vulns --show-labels
 </code></pre></div>
+</td></tr></table>
 
 <p>The output should look something like this:</p>
-<div class="highlight"><pre><span></span><code>NAME                                   AGE     LABELS
-c9b156db-ab92-4b32-a006-efc54312a8c1   4m14s   starboard.container.name=shellshockable,starboard.resource.kind=Deployment,starboard.resource.name=shellshockable,starboard.resource.namespace=default
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">NAME                                   AGE     LABELS</span>
+<span class="err">c9b156db-ab92-4b32-a006-efc54312a8c1   4m14s   starboard.container.name=shellshockable,starboard.resource.kind=Deployment,starboard.resource.name=shellshockable,starboard.resource.namespace=default</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>The labels indicate which resource this vulnerability report applies to.</p>
 <blockquote>
 <p>TODO! On master, but not yet released as a binary, we have <a href="https://github.com/aquasecurity/starboard/pull/97">additional info</a> with <code>-o wide</code></p>
 </blockquote>
 <p>As mentioned above, Starboard creates a Kubernetes job that runs Trivy over the container images defined for the workload. This job lives in a namespace called <em>starboard</em>. In this example, the job finds that the <code>shellshockable</code> deployment uses the container image <code>lizrice/shellshockable:0.1.0</code>, and runs Trivy over that image. If you specified <code>--delete-scan-job=false</code> you can inspect the completed job.</p>
-<div class="highlight"><pre><span></span><code>kubectl describe <span class="k">$(</span>kubectl get <span class="nb">jobs</span> -n starboard -o name<span class="k">)</span> -n starboard
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl describe <span class="k">$(</span>kubectl get <span class="nb">jobs</span> -n starboard -o name<span class="k">)</span> -n starboard
 </code></pre></div>
+</td></tr></table>
 
-<p>Within this output you can see that the job ran the <code>trivy</code> command, and the last argument to that command was the image name <code>lizrice/shellshockable:0.1.0</code>.
-<div class="highlight"><pre><span></span><code>...
-  Containers:
-   shellshockable:
-    Image:      docker.io/aquasec/trivy:0.9.1
-    Port:       &lt;none&gt;
-    Host Port:  &lt;none&gt;
-    Command:
-      trivy
-    Args:
-      --skip-update
-      --cache-dir
-      /var/lib/trivy
-      --no-progress
-      --format
-      json
-      lizrice/shellshockable:0.1.0
-...
-</code></pre></div></p>
+<p>Within this output you can see that the job ran the <code>trivy</code> command, and the last argument to that command was the image name <code>lizrice/shellshockable:0.1.0</code>.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">...</span>
+<span class="err">  Containers:</span>
+<span class="err">   shellshockable:</span>
+<span class="err">    Image:      docker.io/aquasec/trivy:0.9.1</span>
+<span class="err">    Port:       &lt;none&gt;</span>
+<span class="err">    Host Port:  &lt;none&gt;</span>
+<span class="err">    Command:</span>
+<span class="err">      trivy</span>
+<span class="err">    Args:</span>
+<span class="err">      --skip-update</span>
+<span class="err">      --cache-dir</span>
+<span class="err">      /var/lib/trivy</span>
+<span class="err">      --no-progress</span>
+<span class="err">      --format</span>
+<span class="err">      json</span>
+<span class="err">      lizrice/shellshockable:0.1.0</span>
+<span class="err">...</span>
+</code></pre></div>
+</td></tr></table>
+
 <h3 id="view-in-octant">View in Octant<a class="headerlink" href="#view-in-octant" title="Permanent link">&para;</a></h3>
 <p>Starboard makes it easy to run Trivy over your running workloads, and coming soon, there will be an <a href="https://github.com/aquasecurity/starboard-security-operator">operator</a> that will watch for new workloads and automatically run scans over them.</p>
 <p>Today, there is also an Octant plugin so you can view the vulnerability results through the Octant UI.</p>
@@ -713,7 +820,7 @@ c9b156db-ab92-4b32-a006-efc54312a8c1   4m14s   starboard.container.name=shellsho
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../compromise/" title="Compromise a pod!" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../compromise/" title="Compromised pod" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -722,7 +829,7 @@ c9b156db-ab92-4b32-a006-efc54312a8c1   4m14s   starboard.container.name=shellsho
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Compromise a pod!
+                Compromised pod
               </span>
             </div>
           </a>

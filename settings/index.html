@@ -225,16 +225,35 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href=".." title="Overview" class="md-nav__link">
       Overview
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -243,10 +262,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -255,22 +274,48 @@
     </a>
   </li>
 
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../compromise/" title="Compromise a pod!" class="md-nav__link">
-      Compromise a pod!
-    </a>
+        
+      </ul>
+    </nav>
   </li>
 
     
       
       
       
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Exercises
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Exercises
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../compromise/" title="Compromised pod" class="md-nav__link">
+      Compromised pod
+    </a>
+  </li>
+
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -279,10 +324,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -291,10 +336,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
   
 
@@ -442,10 +487,10 @@
     
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -454,16 +499,45 @@
     </a>
   </li>
 
+        
+      </ul>
+    </nav>
+  </li>
+
     
       
       
       
 
 
-  <li class="md-nav__item">
-    <a href="../conclusions/" title="Conclusion" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
       Conclusion
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Conclusion
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../conclusions/" title="Conclusions" class="md-nav__link">
+      Conclusions
     </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -628,18 +702,21 @@
 <p>What we are about to do is TERRIBLE practice but it makes it easier to write a platform-independent set of instructions for this tutorial. Never run YAML directly from the internet like this in your production cluster - check what's in it first!</p>
 </div>
 <h3 id="create-the-kube-bench-job">Create the kube-bench job<a class="headerlink" href="#create-the-kube-bench-job" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job.yaml
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job.yaml</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>You can watch the job until it has completed:</p>
-<div class="highlight"><pre><span></span><code>kubectl get jobs --watch
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl get jobs --watch</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Hit Ctrl-C once the job has finished.</p>
 <h3 id="get-the-job-output-from-the-logs">Get the job output from the logs<a class="headerlink" href="#get-the-job-output-from-the-logs" title="Permanent link">&para;</a></h3>
 <p>The job applies the label <code>app: kube-bench</code> to the pod, so you can easily retrieve the logs like this:</p>
-<div class="highlight"><pre><span></span><code>kubectl logs $(kubectl get pods -l app=kube-bench -o name)
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl logs $(kubectl get pods -l app=kube-bench -o name)</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Scroll back through the logs to see how it is divided into sections, each with its own set of results, remediation recommendations, and a summary.</p>
 <p>Most of the tests pass but there are a few results marked with <code>[WARN]</code> or <code>[FAIL]</code></p>
@@ -654,21 +731,35 @@
 <p>This tutorial was written using Kubernetes 1.18.2 and testing against the CIS Kubernetes Benchmark v1.5.1. If you are using a later version of Kubernetes, it's possible that the default configuration settings have changed and the results you get might not match what is described here.</p>
 </div>
 <p>Scroll back through the results to find the result and (further down the results) the remediation information for the test 4.2.6.</p>
-<div class="highlight"><pre><span></span><code>...
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="p">...</span><span class="w"></span>
 
-[FAIL] 4.2.6 Ensure that the --protect-kernel-defaults argument is set to true (Scored)
+<span class="o">[</span><span class="n">FAIL</span><span class="o">]</span><span class="w"> </span><span class="mf">4.2.6</span><span class="w"> </span><span class="n">Ensure</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="c1">--protect-kernel-defaults argument is set to true (Scored)</span>
 
-...
+<span class="p">...</span><span class="w"></span>
 
-4.2.6 If using a Kubelet config file, edit the file to set protectKernelDefaults: true.
-If using command line arguments, edit the kubelet service file
-/etc/systemd/system/kubelet.service.d/10-kubeadm.conf on each worker node and
-set the below parameter in KUBELET_SYSTEM_PODS_ARGS variable.
---protect-kernel-defaults=true
-Based on your system, restart the kubelet service. For example:
-systemctl daemon-reload
-systemctl restart kubelet.service
+<span class="mf">4.2.6</span><span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">Kubelet</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="k">file</span><span class="p">,</span><span class="w"> </span><span class="n">edit</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="nl">protectKernelDefaults</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">.</span><span class="w"></span>
+<span class="k">If</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">command</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="n">arguments</span><span class="p">,</span><span class="w"> </span><span class="n">edit</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">kubelet</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="k">file</span><span class="w"></span>
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">systemd</span><span class="o">/</span><span class="k">system</span><span class="o">/</span><span class="n">kubelet</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="mi">10</span><span class="o">-</span><span class="n">kubeadm</span><span class="p">.</span><span class="n">conf</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="k">each</span><span class="w"> </span><span class="n">worker</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="ow">and</span><span class="w"></span>
+<span class="k">set</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">below</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">KUBELET_SYSTEM_PODS_ARGS</span><span class="w"> </span><span class="k">variable</span><span class="p">.</span><span class="w"></span>
+<span class="c1">--protect-kernel-defaults=true</span>
+<span class="n">Based</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="k">system</span><span class="p">,</span><span class="w"> </span><span class="n">restart</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">kubelet</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="w"> </span><span class="k">For</span><span class="w"> </span><span class="nl">example</span><span class="p">:</span><span class="w"></span>
+<span class="n">systemctl</span><span class="w"> </span><span class="n">daemon</span><span class="o">-</span><span class="n">reload</span><span class="w"></span>
+<span class="n">systemctl</span><span class="w"> </span><span class="n">restart</span><span class="w"> </span><span class="n">kubelet</span><span class="p">.</span><span class="n">service</span><span class="w"></span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Kind uses a kubelet configuration file that lives at <code>/var/lib/kubelet/config.yaml</code>, so only the first line of the remediation text applies - you don't have to worry about editing the kubelet service file or restarting the service.</p>
 <div class="admonition note">
@@ -677,43 +768,59 @@ systemctl restart kubelet.service
 </div>
 <h3 id="edit-the-kubelet-configuration-file">Edit the Kubelet configuration file<a class="headerlink" href="#edit-the-kubelet-configuration-file" title="Permanent link">&para;</a></h3>
 <p>First, open a shell into the kind container.</p>
-<div class="highlight"><pre><span></span><code>docker exec -it kind-control-plane bash
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker exec -it kind-control-plane bash</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Assuming that it doesn't already have an editor installed, you can add one.</p>
-<div class="highlight"><pre><span></span><code>apt-get update
-apt-get install vim
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">apt-get update</span>
+<span class="err">apt-get install vim</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Edit the Kubelet config file</p>
-<div class="highlight"><pre><span></span><code>vi /var/lib/kubelet/config.yaml
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">vi /var/lib/kubelet/config.yaml</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Add the line <code>protectKernelDefaults: true</code> so that the file looks something like this:</p>
-<div class="highlight"><pre><span></span><code>apiVersion: kubelet.config.k8s.io/v1beta1
-authentication:
-  anonymous:
-    enabled: false
-...
-nodeStatusUpdateFrequency: 0s
-protectKernelDefaults: true
-rotateCertificates: true
-...
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">apiVersion</span><span class="o">:</span> <span class="n">kubelet</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">k8s</span><span class="o">.</span><span class="na">io</span><span class="o">/</span><span class="n">v1beta1</span>
+<span class="n">authentication</span><span class="o">:</span>
+  <span class="n">anonymous</span><span class="o">:</span>
+    <span class="n">enabled</span><span class="o">:</span> <span class="kc">false</span>
+<span class="o">...</span>
+<span class="n">nodeStatusUpdateFrequency</span><span class="o">:</span> <span class="mi">0</span><span class="n">s</span>
+<span class="n">protectKernelDefaults</span><span class="o">:</span> <span class="kc">true</span>
+<span class="n">rotateCertificates</span><span class="o">:</span> <span class="kc">true</span>
+<span class="o">...</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Save the file. The kubelet will spot that the configuration has changed and update itself, but meanwhile you can <code>exit</code> to leave the container so that you are back at your terminal where you can run <code>kubectl</code> commands on the kind cluster.</p>
 <h3 id="re-run-kube-bench">Re-run kube-bench<a class="headerlink" href="#re-run-kube-bench" title="Permanent link">&para;</a></h3>
 <p>First delete the previous job:</p>
-<div class="highlight"><pre><span></span><code>kubectl delete job kube-bench
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl delete job kube-bench</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Run the kube-bench job, as before:</p>
-<div class="highlight"><pre><span></span><code>kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job.yaml
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job.yaml</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Once the job has completed, get the test results from the logs</p>
-<div class="highlight"><pre><span></span><code>kubectl logs $(kubectl get pods -l app=kube-bench -o name)
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl logs $(kubectl get pods -l app=kube-bench -o name)</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>This time you should see that test 4.2.6 passes. Congratulations, you have remediated a security setting on a Kubernetes node!</p>
 <div class="admonition note">
@@ -722,9 +829,11 @@ rotateCertificates: true
 </div>
 <h2 id="running-kube-bench-through-starboard">Running kube-bench through Starboard<a class="headerlink" href="#running-kube-bench-through-starboard" title="Permanent link">&para;</a></h2>
 <p>You can also use Starboard to run kube-bench and store the results in a Kubernetes CRD.</p>
-<div class="highlight"><pre><span></span><code>$ kubectl starboard kube-bench
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ kubectl starboard kube-bench
 $ kubectl get ciskubebenchreports -o yaml
 </code></pre></div>
+</td></tr></table>
 
 <p>These results can be easily viewed using Octant and the Octant Starboard plugin.</p>
 <p>Using Starboard has the advantage that it will automatically run a <code>kube-bench</code> job on all the nodes in the cluster.</p>

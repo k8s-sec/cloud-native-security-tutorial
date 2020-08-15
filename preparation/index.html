@@ -224,6 +224,27 @@
       
       
 
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
 
   <li class="md-nav__item">
     <a href=".." title="Overview" class="md-nav__link">
@@ -231,10 +252,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -243,10 +264,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
   
 
@@ -327,22 +348,46 @@
     
   </li>
 
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../compromise/" title="Compromise a pod!" class="md-nav__link">
-      Compromise a pod!
-    </a>
+        
+      </ul>
+    </nav>
   </li>
 
     
       
       
       
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Exercises
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Exercises
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../compromise/" title="Compromised pod" class="md-nav__link">
+      Compromised pod
+    </a>
+  </li>
+
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -351,10 +396,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -363,10 +408,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -375,10 +420,10 @@
     </a>
   </li>
 
-    
-      
-      
-      
+        
+          
+          
+          
 
 
   <li class="md-nav__item">
@@ -387,16 +432,45 @@
     </a>
   </li>
 
+        
+      </ul>
+    </nav>
+  </li>
+
     
       
       
       
 
 
-  <li class="md-nav__item">
-    <a href="../conclusions/" title="Conclusion" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
       Conclusion
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Conclusion
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../conclusions/" title="Conclusions" class="md-nav__link">
+      Conclusions
     </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -491,34 +565,43 @@ along with Helm to install and run apps on the cluster.</p>
 <h3 id="install-kind">Install kind<a class="headerlink" href="#install-kind" title="Permanent link">&para;</a></h3>
 <p>You can skip this step if you already have an up-to-date installation of <code>kind</code>.</p>
 <p>On MacOS, using Homebrew:</p>
-<div class="highlight"><pre><span></span><code>brew install kind
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">brew install kind</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>On MacOS/Linux:</p>
-<div class="highlight"><pre><span></span><code>curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64
-chmod +x ./kind
-mv ./kind /some-dir-in-your-PATH/kind
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64</span>
+<span class="err">chmod +x ./kind</span>
+<span class="err">mv ./kind /some-dir-in-your-PATH/kind</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>On Windows, using Chocolatey:</p>
-<div class="highlight"><pre><span></span><code>choco install kind
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">choco install kind</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>For more details see the <a href="https://kind.sigs.k8s.io/docs/user/quick-start/">kind quickstart guide</a>.</p>
 <h3 id="create-cluster">Create cluster<a class="headerlink" href="#create-cluster" title="Permanent link">&para;</a></h3>
 <p>To create a <code>kind</code> cluster (effectively a bunch of Docker containers running 
 locally):</p>
-<div class="highlight"><pre><span></span><code>kind create cluster
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kind create cluster</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Once it's up and running, check that you can see the worker node is up and running:</p>
-<div class="highlight"><pre><span></span><code>kubectl get nodes
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl get nodes</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>This should show something like this:</p>
-<div class="highlight"><pre><span></span><code>NAME                 STATUS   ROLES    AGE   VERSION
-kind-control-plane   Ready    master   78m   v1.18.2
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">NAME                 STATUS   ROLES    AGE   VERSION</span>
+<span class="err">kind-control-plane   Ready    master   78m   v1.18.2</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Great! You have a Kubernetes cluster running locally that you can experiment with.
 Where appropriate, we will create dedicated <code>kind</code> clusters with certain configurations.</p>
@@ -526,35 +609,39 @@ Where appropriate, we will create dedicated <code>kind</code> clusters with cert
 <p>If you don't already have Helm on your laptop, you'll want to install that too.
 Find full instructions in the <a href="https://helm.sh/docs/intro/install/">Helm documentation</a> or here is a quick guide:</p>
 <p>On MacOS, using Homebrew:</p>
-<div class="highlight"><pre><span></span><code>brew install helm
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">brew install helm</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>On MacOS/Linux:</p>
-<div class="highlight"><pre><span></span><code>curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod +x get_helm.sh
-./get_helm.sh
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3</span>
+<span class="err">chmod +x get_helm.sh</span>
+<span class="err">./get_helm.sh</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>On Windows, using Chocolatey:</p>
-<div class="highlight"><pre><span></span><code>choco install kubernetes-helm
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">choco install kubernetes-helm</span>
 </code></pre></div>
+</td></tr></table>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you have a fresh Kind installation there won't be any Helm charts installed
 yet, so a <code>helm ls</code> will return an empty list:</p>
-<div class="highlight"><pre><span></span><code>$ helm ls
-NAME    NAMESPACE   REVISION    UPDATED STATUS  CHART   APP VERSION
-</code></pre></div>
-
+<p><code>$ helm ls
+NAME    NAMESPACE   REVISION    UPDATED STATUS  CHART   APP VERSION</code></p>
 </div>
 <h2 id="clone-repo">Clone repo<a class="headerlink" href="#clone-repo" title="Permanent link">&para;</a></h2>
 <p>In certain sections, you'll be using certain configuration files and Kubernetes
 manifests as defined in the <a href="https://github.com/k8s-sec/cloud-native-security-tutorial/tree/master/res"><code>res/</code> directory</a>
 of our GitHub repository.</p>
 <p>So, either download the content of said repository or simply clone the repo with:</p>
-<div class="highlight"><pre><span></span><code>git clone https://github.com/k8s-sec/cloud-native-security-tutorial.git
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">git clone https://github.com/k8s-sec/cloud-native-security-tutorial.git</span>
 </code></pre></div>
+</td></tr></table>
 
 <p>Unless we say otherwise, we assume <code>cloud-native-security-tutorial/</code> to be the
 base directory, going forward.</p>
@@ -594,13 +681,13 @@ base directory, going forward.</p>
           </a>
         
         
-          <a href="../compromise/" title="Compromise a pod!" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../compromise/" title="Compromised pod" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Compromise a pod!
+                Compromised pod
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
