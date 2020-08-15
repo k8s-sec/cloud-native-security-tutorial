@@ -32,17 +32,23 @@ For more details see the [installation instructions](https://github.com/aquasecu
 
 To scan an image simply run `trivy image <image>`. For example, to find the vulnerabilities in the image used in the Shellshock-compromised pod, run this:
 
-`trivy image lizrice/shellshockable:0.1.0`
+```
+trivy image lizrice/shellshockable:0.1.0
+```
 
 The Shellshock vulnerability is classed as HIGH severity, and it has the identifier [CVE-2014-6271](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6271).
 
 If you are seeing a lot of results you might want to filter out the lower severity results. For example:
 
-`trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.1.0`
+```
+trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.1.0
+```
 
 For comparison, try this version of the image that does not have the Shellshock vulnerability:
 
-`trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.3.0`
+```
+trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.3.0
+```
 
 Now try Trivy on your favourite images!
 
@@ -65,8 +71,6 @@ Trivy has some settings that make it a great fit in CI/CD systems:
 * `--exit-code=1` returns 1 if any vulnerabilties are found (above the threshold defined by `--severity`). This non-zero exit code is interpreted as a failure by the CI/CD system.
 
 Take a look at [these examples for integrating vulnerability scanning into various CI/CD systems](https://github.com/aquasecurity/trivy#continuous-integration-ci).
-
-> TODO! In the GitOps section, if attendees will set up a Git repo, maybe we could get them to try the Trivy action there?
 
 ## Scanning as part of admission control
 
@@ -136,7 +140,12 @@ This outputs all the vulnerability information (including the details about Shel
 These details have been stored in a `vulns` resource that you can view with a regular `kubectl get` command:
 
 ```sh
-$ kubectl  get vulns --show-labels
+kubectl  get vulns --show-labels
+```
+
+The output should look something like this:
+
+```
 NAME                                   AGE     LABELS
 c9b156db-ab92-4b32-a006-efc54312a8c1   4m14s   starboard.container.name=shellshockable,starboard.resource.kind=Deployment,starboard.resource.name=shellshockable,starboard.resource.namespace=default
 ```
@@ -145,14 +154,14 @@ The labels indicate which resource this vulnerability report applies to.
 
 > TODO! On master, but not yet released as a binary, we have [additional info](https://github.com/aquasecurity/starboard/pull/97) with `-o wide`
 
-As mentioned above, Starboard creates a Kubernetes job that runs Trivy over the container images defined for the workload. In this case, it establishes that the `shellshockable` deployment uses the container image `lizrice/shellshockable:0.1.0` and runs Trivy over that image. If you specified `--delete-scan-job=false` you can inspect the completed job to see the Trivy command that it ran:
+As mentioned above, Starboard creates a Kubernetes job that runs Trivy over the container images defined for the workload. This job lives in a namespace called *starboard*. In this example, the job finds that the `shellshockable` deployment uses the container image `lizrice/shellshockable:0.1.0`, and runs Trivy over that image. If you specified `--delete-scan-job=false` you can inspect the completed job.
 
 ```sh
-$ kubectl get jobs -n starboard -o wide
-NAME                                   COMPLETIONS   DURATION   AGE     CONTAINERS       IMAGES                          SELECTOR
-637021cc-05d3-497a-a399-7b2ef0b1ebfd   1/1           38s        4m46s   shellshockable   docker.io/aquasec/trivy:0.9.1   controller-uid=0f5e6fac-13a9-438e-9fb4-65ac26fda82f
+kubectl describe $(kubectl get jobs -n starboard -o name) -n starboard
+```
 
-$ kubectl describe job -n starboard 637021cc-05d3-497a-a399-7b2ef0b1ebfd
+Within this output you can see that the job ran the `trivy` command, and the last argument to that command was the image name `lizrice/shellshockable:0.1.0`.
+```
 ...
   Containers:
    shellshockable:
@@ -172,7 +181,11 @@ $ kubectl describe job -n starboard 637021cc-05d3-497a-a399-7b2ef0b1ebfd
 ...
 ```
 
-Starboard makes it easy to run Trivy over your running workloads. There is also an Octant plugin so you can view the vulnerability results through the Octant UI.
+### View in Octant
+
+Starboard makes it easy to run Trivy over your running workloads, and coming soon, there will be an [operator](https://github.com/aquasecurity/starboard-security-operator) that will watch for new workloads and automatically run scans over them.
+
+Today, there is also an Octant plugin so you can view the vulnerability results through the Octant UI.
 
 ![Octant deployment page showing vulnerability counts](img/octant-shellshock-vulns.png)
 

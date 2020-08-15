@@ -14,11 +14,11 @@ The open source tool [kube-bench](https://github.com/aquasecurity/kube-bench) ma
 
 You could run kube-bench in a cluster of your choice but for this tutorial we are showing it running in a kind (Kubernetes in Docker) single-node cluster that runs on your laptop as a Docker container.
 
-
-
 ## Run kube-bench on the kind cluster
 
-!!! What we are about to do is TERRIBLE practice but it makes it easier for us to write a platform-independent set of instructions for this tutorial. Never run YAML directly from the internet like this in your production cluster - check what's in it first!
+!!! danger
+
+    What we are about to do is TERRIBLE practice but it makes it easier to write a platform-independent set of instructions for this tutorial. Never run YAML directly from the internet like this in your production cluster - check what's in it first!
 
 ### Create the kube-bench job
 
@@ -53,7 +53,8 @@ For more detail on the output check the [kube-bench documentation](https://githu
 
 ## Remediate a test
 
-!!! This tutorial was written using Kubernetes 1.18.2 and testing against the CIS Kubernetes Benchmark v1.5.1. If you are using a later version of Kubernetes, it's possible that the default configuration settings have changed and the results you get might not match what is described here.
+!!! note
+    This tutorial was written using Kubernetes 1.18.2 and testing against the CIS Kubernetes Benchmark v1.5.1. If you are using a later version of Kubernetes, it's possible that the default configuration settings have changed and the results you get might not match what is described here.
 
 Scroll back through the results to find the result and (further down the results) the remediation information for the test 4.2.6.
 
@@ -76,7 +77,8 @@ systemctl restart kubelet.service
 
 Kind uses a kubelet configuration file that lives at `/var/lib/kubelet/config.yaml`, so only the first line of the remediation text applies - you don't have to worry about editing the kubelet service file or restarting the service.
 
-!!! When using kind, there is a Docker container running your control plane. This image for this container is based on Ubuntu so we can exec into the running container and then treat it much as if it were a virtual machine running a Kubernetes node.
+!!! note
+    When using kind, there is a Docker container running your control plane. This image for this container is based on Ubuntu so we can exec into the running container and then treat it much as if it were a virtual machine running a Kubernetes node.
 
 ### Edit the Kubelet configuration file
 
@@ -119,7 +121,9 @@ Save the file. The kubelet will spot that the configuration has changed and upda
 
 First delete the previous job:
 
-`kubectl delete job kube-bench`
+```
+kubectl delete job kube-bench
+```
 
 Run the kube-bench job, as before:
 
@@ -135,7 +139,8 @@ kubectl logs $(kubectl get pods -l app=kube-bench -o name)
 
 This time you should see that test 4.2.6 passes. Congratulations, you have remediated a security setting on a Kubernetes node!
 
-!!! This only remediates the running node, of course! If you are managing your own Kubernetes nodes, it would be better to update the configuration settings you use in deployment scripts, so that the nodes are configured to run from the outset with the settings you want.
+!!! note
+    This only remediates the running node, of course! If you are managing your own Kubernetes nodes, it would be better to update the configuration settings you use in deployment scripts, so that the nodes are configured to run from the outset with the settings you want.
 
 ## Running kube-bench through Starboard
 
@@ -163,6 +168,5 @@ Sometimes you might want to run an individual test rather than the whole benchma
 
 ### Specify worker node tests only
 
-There are different CIS Kubernetes Benchmark tests for different node types in the cluster (master nodes, worker nodes, etcd nodes). On a managed Kubernetes system you might only have access to worker nodes, so you only need to run the tests that apply to those nodes. `kube-bench` tries to auto-detect which tests to run on any given node, but to keep things simple you may wish to specify worker node tests only. You might like to try out the [`job-node.yaml`](https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job-node.yaml) configuration which does just that.
-
+There are different CIS Kubernetes Benchmark tests for different node types in the cluster (control plane nodes, worker nodes, etcd nodes). On a managed Kubernetes system you might only have access to worker nodes, so you only need to run the tests that apply to those nodes. `kube-bench` tries to auto-detect which tests to run on any given node, but to keep things simple you may wish to specify worker node tests only. You might like to try out the [`job-node.yaml`](https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job-node.yaml) configuration which does just that.
 

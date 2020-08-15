@@ -1,13 +1,13 @@
-# A compromised pod
+# Run a compromised pod
 
 In this section we deliberately introduce a container image with a known vulnerability so that you can enjoy the experience of exploiting it!
 
-## Run a server vulnerable to Shellshock
+## Run an Apache server vulnerable to Shellshock
 
-We're using a container with [Shellshock](https://en.wikipedia.org/wiki/Shellshock_(software_bug)), a vulnerability in `bash` that allows an attacker to remotely execute commands. To make it really easy, we're providing a Helm chart that installs the vulnerable deployment. 
+We're using a container with [Shellshock](https://en.wikipedia.org/wiki/Shellshock_(software_bug)), a vulnerability in `bash` that allows an attacker to remotely execute commands. To make it really easy, we're providing a Helm chart that installs the vulnerable deployment.
 
 
-!!! danger  "ONLY FOR TEST" 
+!!! danger
 
     DO NOT RUN THIS IN A REAL CLUSTER!
 
@@ -18,7 +18,11 @@ helm install shellshockable https://lizrice.github.io/shellshockable/shellshocka
 This will run a deployment with a single pod. It might take a few seconds to pull the image so check that it's up and running (your pod name will be different):
 
 ```
-$ kubectl get pods
+kubectl get pods
+```
+
+You'll see something like this:
+```
 NAME                             READY   STATUS    RESTARTS   AGE
 shellshockable-d5b7d44b4-9rpzd   1/1     Running   0          70s
 ```
@@ -36,9 +40,10 @@ If you look at the source for the [script](https://github.com/lizrice/shellshock
 First let's see the regular text is returned if we use `curl` to make the HTTPS request:
 
 ```
-$ curl localhost:8081/cgi-bin/shockme.cgi
-Regular, expected output
+curl localhost:8081/cgi-bin/shockme.cgi
 ```
+
+This should show the response `Regular, expected output`
 
 You've seen the web server return content as expected. Now it's time to act like an attacker and exploit the Shellshock vulnerability.
 
