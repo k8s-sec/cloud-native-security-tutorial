@@ -4,18 +4,25 @@ site_author: 'Liz Rice and Michael Hausenblas'
 repo_name: 'k8s-sec/cloud-native-security-tutorial'
 repo_url: 'https://github.com/k8s-sec/cloud-native-security-tutorial'
 copyright: 'Copyright &copy; Liz Rice and Michael Hausenblas'
+docs_dir: 'docs'
 nav:
-    - Overview: index.md
-    - Introduction: introduction.md
-    - Preparation: preparation.md
-    - Compromise a pod!: compromise.md
-    - Scanning: scanning.md
-    - Policies: policies.md
-    - Secure settings: settings.md
-    - GitOps: gitops.md
-    - Conclusion: conclusions.md
+    - Home:
+      - Overview: index.md
+      - Introduction: introduction.md
+      - Preparation: preparation.md
+    - Exercises:
+      - Compromised pod: compromise.md
+      - Scanning: scanning.md
+      - Policies: policies.md
+      - Secure settings: settings.md
+      - GitOps: gitops.md
+    - Conclusion:
+      - conclusions.md
 theme:
     name: 'material'
+    features:
+    - 'tabs'
+    - 'instant'
     icon:
         logo: 'material/lock'
     font:
@@ -35,5 +42,4 @@ markdown_extensions:
     - admonition
     - codehilite:
         linenums: true
-    - pymdownx.details
-    - pymdownx.superfences
+
