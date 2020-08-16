@@ -64,6 +64,9 @@ Learn more about least privileges practices in the container runtime context via
 
 - [rootlesscontaine.rs](https://rootlesscontaine.rs/)
 - [canihaznonprivilegedcontainers.info](http://canihaznonprivilegedcontainers.info/)
+- [SELinux as a resource in Kubernetes](https://jaosorior.dev/2019/selinux-as-a-resource-in-kubernetes/)
+- [kubernetes-sigs/seccomp-operator](https://github.com/kubernetes-sigs/seccomp-operator)
+- [Seccomp in Kubernetes](https://itnext.io/seccomp-in-kubernetes-part-i-7-things-you-should-know-before-you-even-start-97502ad6b6d6)
 
 Clean up with `kind delete cluster --name cnsectut` when you're done exploring
 this topic.
