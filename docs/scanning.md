@@ -82,13 +82,17 @@ To prevent deploying a container image with known vulnerabilities, you can use a
 
 and denies admission if the image is vulnerable.
 
-Teppei Fukuda has a [session at KubeCon this week](https://sched.co/Zekd) showing the use of OPA to make policy checks at the admission control stage.
+Teppei Fukuda has a [session at KubeCon this week](https://sched.co/Zekd) showing 
+the use of [OPA](../policies/#general-purpose-policies) to make policy checks at the admission control stage.
 
 ## Scanning in live workloads
 
 Scanning in the CI/CD pipeline can prevent you from storing a vulnerable image in the registry, and admission control can prevent you from deploying an image with known vulnerabilities. But you may also want the ability to check the container images used by your live workloads.
 
-> New vulnerabilities are found all the time. An image that you scan today might not have any vulnerablities, but a researcher may find a new issue that means the same image will fail the scan tomorrow.
+!!! tip "Security is an ongoing process"
+    New vulnerabilities are found all the time. An image that you scan today 
+    might not have any vulnerablities, but a researcher may find a new issue 
+    that means the same image will fail the scan tomorrow.
 
 [Starboard](https://github.com/aquasecurity/starboard) is a tool for running security tools, including Trivy, within your Kubernetes cluster. This is an easy way to create and view scans of the container images used by your running workloads. Want to give it a try?
 
@@ -153,7 +157,10 @@ c9b156db-ab92-4b32-a006-efc54312a8c1   4m14s   starboard.container.name=shellsho
 
 The labels indicate which resource this vulnerability report applies to.
 
-> TODO! On master, but not yet released as a binary, we have [additional info](https://github.com/aquasecurity/starboard/pull/97) with `-o wide`
+!!! note "Upcoming feature: additional info"
+    On master, but not yet released as a binary, we have
+    [additional info](https://github.com/aquasecurity/starboard/pull/97) using
+    the `-o wide` option.
 
 As mentioned above, Starboard creates a Kubernetes job that runs Trivy over the container images defined for the workload. This job lives in a namespace called *starboard*. In this example, the job finds that the `shellshockable` deployment uses the container image `lizrice/shellshockable:0.1.0`, and runs Trivy over that image. If you specified `--delete-scan-job=false` you can inspect the completed job.
 
@@ -162,7 +169,8 @@ kubectl describe $(kubectl get jobs -n starboard -o name) -n starboard
 ```
 
 Within this output you can see that the job ran the `trivy` command, and the last argument to that command was the image name `lizrice/shellshockable:0.1.0`.
-```
+
+```yaml
 ...
   Containers:
    shellshockable:
