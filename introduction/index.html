@@ -530,17 +530,31 @@
                 
                 
                 <h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>If you want to follow along with the hands-on examples in this tutorial, you'll need a Kubernetes cluster and Helm to get started. You'll find instructions in the <a href="../preparation/">Preparation</a> page.</p>
-<p>Before we get to the examples, let's review some of the different ways that an attacker might compromise a Kubernetes cluster.</p>
+<p>If you want to follow along with the hands-on examples in this tutorial, you'll
+need a Kubernetes cluster and Helm to get started. You'll find instructions in
+the <a href="../preparation/">preparation</a> section.</p>
+<p>Before we get to the hands-on part, let's review different ways an attacker might
+compromise a Kubernetes cluster:</p>
 <h2 id="kubernetes-attack-vectors">Kubernetes attack vectors<a class="headerlink" href="#kubernetes-attack-vectors" title="Permanent link">&para;</a></h2>
 <p><img alt="Kubernetes Attack Vectors" src="../img/kuse_0101.png" /></p>
-<p>We won't have time to explore all of these in detail but we will be covering some of the most important topics.</p>
+<p>We won't have time to explore all of these in detail but we will be covering 
+some of the most important topics.</p>
 <ul>
-<li>An attacker might take advantage of vulnerabilities in your application code. You can go a long way to address this by <a href="../scanning/">scanning container images for vulnerabilities</a></li>
-<li>If an attacker gets a foothold within a container, you want to prevent them from escaping the container to access the host or other components, by <a href="../policies/">configuring container images with security in mind, and checking them with policies</a></li>
-<li>The Kubernetes components and APIs offer more potential surfaces for attack, so you want to <a href="../settings/">checking your Kubernetes configuration</a> for settings that might leave your deployment vulnerable.</li>
-<li>At the root of many security issues lies human error, as well as bad actors. You can limit human access to the cluster, and thus <a href="../gitops/">enhancing security using GitOps</a></li>
+<li>An attacker might take advantage of vulnerabilities in your application code.
+  You can go a long way to address this by <a href="../scanning/">scanning container images</a> for vulnerabilities.</li>
+<li>If an attacker gets a foothold within a container, you want to prevent themi
+  from escaping the container to access the host or other components, by
+  configuring container images with security in mind, and enforcing <a href="../policies/">policies</a>
+  for runtime and networking behavior.</li>
+<li>The Kubernetes components and APIs offer more potential surfaces for attack,
+  so you want to check your <a href="../settings/">Kubernetes settings</a> that might leave 
+  your deployment vulnerable.</li>
+<li>At the root of many security issues lies human error, as well as bad actors. 
+  You can limit human access to the cluster, making auditing easier, and enhancing security 
+  by employing <a href="../gitops/">GitOps</a>.</li>
 </ul>
+<p>With that, you had a look at the big picture, so let's move on to setting up
+our hands-on environment.</p>
                 
               
               

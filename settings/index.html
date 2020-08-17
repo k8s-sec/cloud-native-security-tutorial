@@ -425,23 +425,23 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#run-kube-bench-on-the-kind-cluster" class="md-nav__link">
-    Run kube-bench on the kind cluster
+  <a href="#run-kube-bench-in-kind" class="md-nav__link">
+    Run kube-bench in kind
   </a>
   
-    <nav class="md-nav" aria-label="Run kube-bench on the kind cluster">
+    <nav class="md-nav" aria-label="Run kube-bench in kind">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#create-the-kube-bench-job" class="md-nav__link">
-    Create the kube-bench job
+  <a href="#create-kube-bench-job" class="md-nav__link">
+    Create kube-bench job
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#get-the-job-output-from-the-logs" class="md-nav__link">
-    Get the job output from the logs
+  <a href="#get-job-output-from-logs" class="md-nav__link">
+    Get job output from logs
   </a>
   
 </li>
@@ -460,8 +460,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#edit-the-kubelet-configuration-file" class="md-nav__link">
-    Edit the Kubelet configuration file
+  <a href="#edit-kubelet-configuration" class="md-nav__link">
+    Edit kubelet configuration
   </a>
   
 </li>
@@ -479,8 +479,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#running-kube-bench-through-starboard" class="md-nav__link">
-    Running kube-bench through Starboard
+  <a href="#using-kube-bench-via-starboard" class="md-nav__link">
+    Using kube-bench via Starboard
   </a>
   
 </li>
@@ -624,23 +624,23 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#run-kube-bench-on-the-kind-cluster" class="md-nav__link">
-    Run kube-bench on the kind cluster
+  <a href="#run-kube-bench-in-kind" class="md-nav__link">
+    Run kube-bench in kind
   </a>
   
-    <nav class="md-nav" aria-label="Run kube-bench on the kind cluster">
+    <nav class="md-nav" aria-label="Run kube-bench in kind">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#create-the-kube-bench-job" class="md-nav__link">
-    Create the kube-bench job
+  <a href="#create-kube-bench-job" class="md-nav__link">
+    Create kube-bench job
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#get-the-job-output-from-the-logs" class="md-nav__link">
-    Get the job output from the logs
+  <a href="#get-job-output-from-logs" class="md-nav__link">
+    Get job output from logs
   </a>
   
 </li>
@@ -659,8 +659,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#edit-the-kubelet-configuration-file" class="md-nav__link">
-    Edit the Kubelet configuration file
+  <a href="#edit-kubelet-configuration" class="md-nav__link">
+    Edit kubelet configuration
   </a>
   
 </li>
@@ -678,8 +678,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#running-kube-bench-through-starboard" class="md-nav__link">
-    Running kube-bench through Starboard
+  <a href="#using-kube-bench-via-starboard" class="md-nav__link">
+    Using kube-bench via Starboard
   </a>
   
 </li>
@@ -738,13 +738,13 @@
 <p>There are hundreds of recommendations in these benchmarks, so running them manually on every node would be a time-consuming process.</p>
 <h3 id="running-benchmark-checks-with-kube-bench">Running benchmark checks with kube-bench<a class="headerlink" href="#running-benchmark-checks-with-kube-bench" title="Permanent link">&para;</a></h3>
 <p>The open source tool <a href="https://github.com/aquasecurity/kube-bench">kube-bench</a> makes it easy to run the tests defined in the CIS Kubernetes benchmark. In this tutorial, you will use kube-bench to identify some insecure Kubernetes settings, and you'll remediate one of the settings to turn a failing test into a pass.</p>
-<p>You could run kube-bench in a cluster of your choice but for this tutorial we are showing it running in a kind (Kubernetes in Docker) single-node cluster that runs on your laptop as a Docker container.</p>
-<h2 id="run-kube-bench-on-the-kind-cluster">Run kube-bench on the kind cluster<a class="headerlink" href="#run-kube-bench-on-the-kind-cluster" title="Permanent link">&para;</a></h2>
+<p>You could run <code>kube-bench</code> in a cluster of your choice but for this tutorial we are showing it running in a kind (Kubernetes in Docker) single-node cluster that runs on your laptop as a Docker container.</p>
+<h2 id="run-kube-bench-in-kind">Run kube-bench in kind<a class="headerlink" href="#run-kube-bench-in-kind" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>What we are about to do is TERRIBLE practice but it makes it easier to write a platform-independent set of instructions for this tutorial. Never run YAML directly from the internet like this in your production cluster - check what's in it first!</p>
 </div>
-<h3 id="create-the-kube-bench-job">Create the kube-bench job<a class="headerlink" href="#create-the-kube-bench-job" title="Permanent link">&para;</a></h3>
+<h3 id="create-kube-bench-job">Create kube-bench job<a class="headerlink" href="#create-kube-bench-job" title="Permanent link">&para;</a></h3>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job.yaml</span>
 </code></pre></div>
 </td></tr></table>
@@ -755,7 +755,7 @@
 </td></tr></table>
 
 <p>Hit Ctrl-C once the job has finished.</p>
-<h3 id="get-the-job-output-from-the-logs">Get the job output from the logs<a class="headerlink" href="#get-the-job-output-from-the-logs" title="Permanent link">&para;</a></h3>
+<h3 id="get-job-output-from-logs">Get job output from logs<a class="headerlink" href="#get-job-output-from-logs" title="Permanent link">&para;</a></h3>
 <p>The job applies the label <code>app: kube-bench</code> to the pod, so you can easily retrieve the logs like this:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">kubectl logs $(kubectl get pods -l app=kube-bench -o name)</span>
 </code></pre></div>
@@ -809,7 +809,7 @@
 <p class="admonition-title">Note</p>
 <p>When using kind, there is a Docker container running your control plane. This image for this container is based on Ubuntu so we can exec into the running container and then treat it much as if it were a virtual machine running a Kubernetes node.</p>
 </div>
-<h3 id="edit-the-kubelet-configuration-file">Edit the Kubelet configuration file<a class="headerlink" href="#edit-the-kubelet-configuration-file" title="Permanent link">&para;</a></h3>
+<h3 id="edit-kubelet-configuration">Edit kubelet configuration<a class="headerlink" href="#edit-kubelet-configuration" title="Permanent link">&para;</a></h3>
 <p>First, open a shell into the kind container.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker exec -it kind-control-plane bash</span>
 </code></pre></div>
@@ -870,7 +870,7 @@
 <p class="admonition-title">Note</p>
 <p>This only remediates the running node, of course! If you are managing your own Kubernetes nodes, it would be better to update the configuration settings you use in deployment scripts, so that the nodes are configured to run from the outset with the settings you want.</p>
 </div>
-<h2 id="running-kube-bench-through-starboard">Running kube-bench through Starboard<a class="headerlink" href="#running-kube-bench-through-starboard" title="Permanent link">&para;</a></h2>
+<h2 id="using-kube-bench-via-starboard">Using kube-bench via Starboard<a class="headerlink" href="#using-kube-bench-via-starboard" title="Permanent link">&para;</a></h2>
 <p>You can also use Starboard to run kube-bench and store the results in a Kubernetes CRD.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ kubectl starboard kube-bench
