@@ -82,7 +82,7 @@ To prevent deploying a container image with known vulnerabilities, you can use a
 
 and denies admission if the image is vulnerable.
 
-Teppei Fukuda has a [session at KubeCon this week](https://sched.co/Zekd) showing 
+Teppei Fukuda has a [session at KubeCon this week](https://sched.co/Zekd) showing
 the use of [OPA](../policies/#general-purpose-policies) to make policy checks at the admission control stage.
 
 ## Scanning in live workloads
@@ -90,8 +90,8 @@ the use of [OPA](../policies/#general-purpose-policies) to make policy checks at
 Scanning in the CI/CD pipeline can prevent you from storing a vulnerable image in the registry, and admission control can prevent you from deploying an image with known vulnerabilities. But you may also want the ability to check the container images used by your live workloads.
 
 !!! tip "Security is an ongoing process"
-    New vulnerabilities are found all the time. An image that you scan today 
-    might not have any vulnerablities, but a researcher may find a new issue 
+    New vulnerabilities are found all the time. An image that you scan today
+    might not have any vulnerablities, but a researcher may find a new issue
     that means the same image will fail the scan tomorrow.
 
 [Starboard](https://github.com/aquasecurity/starboard) is a tool for running security tools, including Trivy, within your Kubernetes cluster. This is an easy way to create and view scans of the container images used by your running workloads. Want to give it a try?
@@ -194,7 +194,7 @@ Within this output you can see that the job ran the `trivy` command, and the las
 
 Starboard makes it easy to run Trivy over your running workloads, and coming soon, there will be an [operator](https://github.com/aquasecurity/starboard-security-operator) that will watch for new workloads and automatically run scans over them.
 
-Today, there is also an Octant plugin so you can view the vulnerability results through the Octant UI.
+Today, there is also an [Octant plugin](https://github.com/aquasecurity/starboard-octant-plugin) so you can view the vulnerability results through the Octant UI.
 
 ![Octant deployment page showing vulnerability counts](img/octant-shellshock-vulns.png)
 

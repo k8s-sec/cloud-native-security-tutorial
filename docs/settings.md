@@ -147,8 +147,8 @@ This time you should see that test 4.2.6 passes. Congratulations, you have remed
 You can also use Starboard to run kube-bench and store the results in a Kubernetes CRD.
 
 ```sh
-$ kubectl starboard kube-bench
-$ kubectl get ciskubebenchreports -o yaml
+kubectl starboard kube-bench
+kubectl get ciskubebenchreports -o yaml
 ```
 
 These results can be easily viewed using Octant and the Octant Starboard plugin.
