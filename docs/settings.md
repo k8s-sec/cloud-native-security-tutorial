@@ -12,15 +12,15 @@ There are hundreds of recommendations in these benchmarks, so running them manua
 
 The open source tool [kube-bench](https://github.com/aquasecurity/kube-bench) makes it easy to run the tests defined in the CIS Kubernetes benchmark. In this tutorial, you will use kube-bench to identify some insecure Kubernetes settings, and you'll remediate one of the settings to turn a failing test into a pass.
 
-You could run kube-bench in a cluster of your choice but for this tutorial we are showing it running in a kind (Kubernetes in Docker) single-node cluster that runs on your laptop as a Docker container.
+You could run `kube-bench` in a cluster of your choice but for this tutorial we are showing it running in a kind (Kubernetes in Docker) single-node cluster that runs on your laptop as a Docker container.
 
-## Run kube-bench on the kind cluster
+## Run kube-bench in kind
 
 !!! danger
 
     What we are about to do is TERRIBLE practice but it makes it easier to write a platform-independent set of instructions for this tutorial. Never run YAML directly from the internet like this in your production cluster - check what's in it first!
 
-### Create the kube-bench job
+### Create kube-bench job
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/master/job.yaml
@@ -34,7 +34,7 @@ kubectl get jobs --watch
 
 Hit Ctrl-C once the job has finished.
 
-### Get the job output from the logs
+### Get job output from logs
 
 The job applies the label `app: kube-bench` to the pod, so you can easily retrieve the logs like this:
 
@@ -80,7 +80,7 @@ Kind uses a kubelet configuration file that lives at `/var/lib/kubelet/config.ya
 !!! note
     When using kind, there is a Docker container running your control plane. This image for this container is based on Ubuntu so we can exec into the running container and then treat it much as if it were a virtual machine running a Kubernetes node.
 
-### Edit the Kubelet configuration file
+### Edit kubelet configuration
 
 First, open a shell into the kind container.
 
@@ -142,7 +142,7 @@ This time you should see that test 4.2.6 passes. Congratulations, you have remed
 !!! note
     This only remediates the running node, of course! If you are managing your own Kubernetes nodes, it would be better to update the configuration settings you use in deployment scripts, so that the nodes are configured to run from the outset with the settings you want.
 
-## Running kube-bench through Starboard
+## Using kube-bench via Starboard
 
 You can also use Starboard to run kube-bench and store the results in a Kubernetes CRD.
 

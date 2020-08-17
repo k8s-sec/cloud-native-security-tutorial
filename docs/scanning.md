@@ -6,7 +6,7 @@ A vulnerability scanner can show you which vulnerabilities are present in your c
 
 There are several solutions for vulnerability scanning available, and in this workshop we will use the open source scanner [Trivy](https://github.com/aquasecurity/trivy).
 
-## Running Trivy on the desktop
+## Running Trivy locally
 
 Let's start by installing Trivy so we can run it locally.
 
@@ -21,14 +21,15 @@ brew install aquasecurity/trivy/trivy
 On MacOS / Linux:
 
 ```
-curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | \
+     sh -s -- -b /usr/local/bin
 ```
 
 Trivy does not have a native binary for Windows, but you can [run Trivy as a container](https://github.com/aquasecurity/trivy#docker).
 
 For more details see the [installation instructions](https://github.com/aquasecurity/trivy#installation).
 
-### Run Trivy to scan images
+### Scan images with Trivy
 
 To scan an image simply run `trivy image <image>`. For example, to find the vulnerabilities in the image used in the Shellshock-compromised pod, run this:
 
@@ -52,7 +53,7 @@ trivy image --severity=CRITICAL,HIGH,MEDIUM lizrice/shellshockable:0.3.0
 
 Now try Trivy on your favourite images!
 
-## Including vulnerability scanning in CI/CD
+## Vulnerability scanning in CI/CD
 
 One way to "shift left" security is to include vulnerability scanning as an automatic step in CI/CD. Your build steps might be something like this:
 
@@ -72,7 +73,7 @@ Trivy has some settings that make it a great fit in CI/CD systems:
 
 Take a look at [these examples for integrating vulnerability scanning into various CI/CD systems](https://github.com/aquasecurity/trivy#continuous-integration-ci).
 
-## Scanning as part of admission control
+## Scanning in admission control
 
 To prevent deploying a container image with known vulnerabilities, you can use an admission controller that either
 
@@ -83,7 +84,7 @@ and denies admission if the image is vulnerable.
 
 Teppei Fukuda has a [session at KubeCon this week](https://sched.co/Zekd) showing the use of OPA to make policy checks at the admission control stage.
 
-## Scanning running Kubernetes workloads
+## Scanning in live workloads
 
 Scanning in the CI/CD pipeline can prevent you from storing a vulnerable image in the registry, and admission control can prevent you from deploying an image with known vulnerabilities. But you may also want the ability to check the container images used by your live workloads.
 

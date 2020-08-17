@@ -1,6 +1,9 @@
 # Preparation
 
-## Create a Kubernetes cluster
+If you want to follow along or do the hands-on part in your own time, after the
+tutorial, you will need to prepare a few things. Here's what.
+
+## Kubernetes cluster
 
 To follow along with the practical examples in this tutorial you'll need a
 Kubernetes cluster that you can experiment with. Since at times you will be
