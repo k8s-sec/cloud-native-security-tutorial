@@ -728,12 +728,16 @@
 <li>retrieves the result from a previous scan</li>
 </ul>
 <p>and denies admission if the image is vulnerable.</p>
-<p>Teppei Fukuda has a <a href="https://sched.co/Zekd">session at KubeCon this week</a> showing the use of OPA to make policy checks at the admission control stage.</p>
+<p>Teppei Fukuda has a <a href="https://sched.co/Zekd">session at KubeCon this week</a> showing 
+the use of <a href="../policies/#general-purpose-policies">OPA</a> to make policy checks at the admission control stage.</p>
 <h2 id="scanning-in-live-workloads">Scanning in live workloads<a class="headerlink" href="#scanning-in-live-workloads" title="Permanent link">&para;</a></h2>
 <p>Scanning in the CI/CD pipeline can prevent you from storing a vulnerable image in the registry, and admission control can prevent you from deploying an image with known vulnerabilities. But you may also want the ability to check the container images used by your live workloads.</p>
-<blockquote>
-<p>New vulnerabilities are found all the time. An image that you scan today might not have any vulnerablities, but a researcher may find a new issue that means the same image will fail the scan tomorrow.</p>
-</blockquote>
+<div class="admonition tip">
+<p class="admonition-title">Security is an ongoing process</p>
+<p>New vulnerabilities are found all the time. An image that you scan today 
+might not have any vulnerablities, but a researcher may find a new issue 
+that means the same image will fail the scan tomorrow.</p>
+</div>
 <p><a href="https://github.com/aquasecurity/starboard">Starboard</a> is a tool for running security tools, including Trivy, within your Kubernetes cluster. This is an easy way to create and view scans of the container images used by your running workloads. Want to give it a try?</p>
 <h3 id="install-starboard">Install Starboard<a class="headerlink" href="#install-starboard" title="Permanent link">&para;</a></h3>
 <ol>
@@ -795,9 +799,12 @@
 </td></tr></table>
 
 <p>The labels indicate which resource this vulnerability report applies to.</p>
-<blockquote>
-<p>TODO! On master, but not yet released as a binary, we have <a href="https://github.com/aquasecurity/starboard/pull/97">additional info</a> with <code>-o wide</code></p>
-</blockquote>
+<div class="admonition note">
+<p class="admonition-title">Upcoming feature: additional info</p>
+<p>On master, but not yet released as a binary, we have
+<a href="https://github.com/aquasecurity/starboard/pull/97">additional info</a> using
+the <code>-o wide</code> option.</p>
+</div>
 <p>As mentioned above, Starboard creates a Kubernetes job that runs Trivy over the container images defined for the workload. This job lives in a namespace called <em>starboard</em>. In this example, the job finds that the <code>shellshockable</code> deployment uses the container image <code>lizrice/shellshockable:0.1.0</code>, and runs Trivy over that image. If you specified <code>--delete-scan-job=false</code> you can inspect the completed job.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>kubectl describe <span class="k">$(</span>kubectl get <span class="nb">jobs</span> -n starboard -o name<span class="k">)</span> -n starboard
 </code></pre></div>
@@ -820,23 +827,23 @@
 14
 15
 16
-17</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">...</span>
-<span class="err">  Containers:</span>
-<span class="err">   shellshockable:</span>
-<span class="err">    Image:      docker.io/aquasec/trivy:0.9.1</span>
-<span class="err">    Port:       &lt;none&gt;</span>
-<span class="err">    Host Port:  &lt;none&gt;</span>
-<span class="err">    Command:</span>
-<span class="err">      trivy</span>
-<span class="err">    Args:</span>
-<span class="err">      --skip-update</span>
-<span class="err">      --cache-dir</span>
-<span class="err">      /var/lib/trivy</span>
-<span class="err">      --no-progress</span>
-<span class="err">      --format</span>
-<span class="err">      json</span>
-<span class="err">      lizrice/shellshockable:0.1.0</span>
-<span class="err">...</span>
+17</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nn">...</span>
+  <span class="nt">Containers</span><span class="p">:</span>
+   <span class="nt">shellshockable</span><span class="p">:</span>
+    <span class="nt">Image</span><span class="p">:</span>      <span class="l l-Scalar l-Scalar-Plain">docker.io/aquasec/trivy:0.9.1</span>
+    <span class="nt">Port</span><span class="p">:</span>       <span class="l l-Scalar l-Scalar-Plain">&lt;none&gt;</span>
+    <span class="nt">Host Port</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">&lt;none&gt;</span>
+    <span class="nt">Command</span><span class="p">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">trivy</span>
+    <span class="nt">Args</span><span class="p">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">--skip-update</span>
+      <span class="l l-Scalar l-Scalar-Plain">--cache-dir</span>
+      <span class="l l-Scalar l-Scalar-Plain">/var/lib/trivy</span>
+      <span class="l l-Scalar l-Scalar-Plain">--no-progress</span>
+      <span class="l l-Scalar l-Scalar-Plain">--format</span>
+      <span class="l l-Scalar l-Scalar-Plain">json</span>
+      <span class="l l-Scalar l-Scalar-Plain">lizrice/shellshockable:0.1.0</span>
+<span class="nn">...</span>
 </code></pre></div>
 </td></tr></table>
 
